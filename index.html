@@ -174,49 +174,84 @@
             padding: 20px;
         }
         .mode-card {
-            /* ... existing mode-card styles ... */
+            background: white;
+            border: 6px solid #b2bec3;
+            border-radius: 30px;
+            padding: 40px;
+            cursor: pointer;
+            width: 30%;
+            min-width: 350px;
             box-shadow: 0 8px 0 #b2bec3;
             transition: 0.2s;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
         }
         .mode-card:hover { transform: scale(1.03) translateY(-10px); border-color: #0984e3; background: #eaf2ff; box-shadow: 0 20px 40px rgba(0,0,0,0.2); }
         .mode-card:active { transform: scale(1); box-shadow: 0 4px 0 #b2bec3; }
 
         /* GAME AREA: FILL BLANK */
         .clue-box {
-            /* ... existing clue-box styles ... */
             font-size: 14rem; /* Making the picture clue HUGE */
+            background: #ecf0f1;
+            padding: 30px;
+            border-radius: 40px;
+            border: 6px solid #bdc3c7;
+            line-height: 1;
+            animation: float 3s ease-in-out infinite;
             box-shadow: 0 15px 0 rgba(0,0,0,0.1);
         }
 
         .word-puzzle { 
-            /* ... existing word-puzzle styles ... */
             font-size: 9rem; 
             letter-spacing: 15px; 
+            font-family: monospace; 
+            font-weight: bold; 
+            text-shadow: 4px 4px 0px rgba(0,0,0,0.1);
         }
         
         .missing { 
-            /* ... existing missing styles ... */
+            color: #a29bfe; 
             border-bottom: 12px solid #2d3436; 
+            display: inline-block; 
             min-width: 200px; 
         }
 
         /* GAME AREA: SENSE CHECK */
         .sentence-box { 
-            /* ... existing sentence-box styles ... */
             font-size: 4.5rem; 
+            margin: 30px 0; 
+            padding: 60px; 
+            background: #fff3cd; 
+            border-radius: 30px; 
             border: 10px dashed #ffc107;
+            line-height: 1.3;
+            width: 95%;
+            max-width: 1400px;
         }
 
         /* GAME AREA: PASSAGE */
         .passage-box {
-            /* ... existing passage-box styles ... */
+            background: #e1f0ff;
+            padding: 40px;
+            border-radius: 30px;
+            text-align: left;
             font-size: 3rem;
+            line-height: 1.5;
+            margin-bottom: 30px;
+            border-left: 15px solid #0984e3;
+            width: 95%;
+            max-width: 1400px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             max-height: 40vh; /* Limit height for scroll */
             overflow-y: auto;
         }
         .question-text { 
+            font-weight: bold; 
             font-size: 3.5rem; 
             margin-top: 10px;
+            color: #2d3436; 
         }
 
         /* --- CELEBRATION ANIMATIONS --- */
@@ -237,9 +272,15 @@
 
         /* POP-UP MODAL Overhaul */
         .modal-content {
-            /* ... existing modal content styles ... */
-            border: 15px solid; /* Dynamic color border */
+            background: white;
             padding: 80px 60px;
+            border-radius: 50px;
+            text-align: center;
+            min-width: 600px;
+            max-width: 90%;
+            box-shadow: 0 30px 80px rgba(0,0,0,0.7);
+            animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 15px solid; /* Dynamic color border */
         }
         #modal-emoji { 
             font-size: 10rem;
@@ -247,7 +288,7 @@
             display: none; /* Hidden by default, only shown on loss */
             animation: popIn 0.3s ease-out;
         }
-        #modal-title { font-size: 6rem; font-weight: 900; }
+        #modal-title { font-size: 6rem; font-weight: 900; margin: 15px 0; }
         #modal-text { font-size: 3rem; color: #636e72; margin-bottom: 30px; }
 
         .hidden { display: none !important; }
@@ -445,6 +486,64 @@
         currentType: null
     };
 
+    // --- SOUND FUNCTIONS ---
+
+    // Function to play a correct answer sound (Chime/Bell)
+    function playCorrectSound() {
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        if (!AudioContext) return; 
+
+        const audioCtx = new AudioContext();
+
+        // Create a sequence of two oscillators for a chime effect
+        const frequencies = [660, 880];
+        const duration = 0.15; // seconds
+
+        frequencies.forEach((freq, index) => {
+            const oscillator = audioCtx.createOscillator();
+            const gainNode = audioCtx.createGain();
+
+            oscillator.connect(gainNode);
+            gainNode.connect(audioCtx.destination);
+
+            oscillator.type = 'sine';
+            oscillator.frequency.setValueAtTime(freq, audioCtx.currentTime + index * 0.05);
+
+            // Attack/Decay
+            gainNode.gain.setValueAtTime(0, audioCtx.currentTime);
+            gainNode.gain.linearRampToValueAtTime(0.5, audioCtx.currentTime + 0.01);
+            gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
+
+            oscillator.start(audioCtx.currentTime + index * 0.05);
+            oscillator.stop(audioCtx.currentTime + duration + index * 0.05);
+        });
+    }
+
+    // Function to play an incorrect answer sound (Buzzer)
+    function playIncorrectSound() {
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        if (!AudioContext) return; 
+
+        const audioCtx = new AudioContext();
+        const oscillator = audioCtx.createOscillator();
+        const gainNode = audioCtx.createGain();
+
+        oscillator.connect(gainNode);
+        gainNode.connect(audioCtx.destination);
+
+        oscillator.type = 'sawtooth'; // A harsh, buzzy tone
+        oscillator.frequency.setValueAtTime(120, audioCtx.currentTime); // Low frequency buzz
+
+        // Attack/Decay
+        gainNode.gain.setValueAtTime(0.3, audioCtx.currentTime);
+        gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.5);
+
+        oscillator.start(audioCtx.currentTime);
+        oscillator.stop(audioCtx.currentTime + 0.5);
+    }
+    
+    // --- END SOUND FUNCTIONS ---
+
     function toggleFullScreen() {
         if (!document.fullscreenElement) {
             document.documentElement.requestFullscreen();
@@ -569,6 +668,7 @@
 
     // POPUP LOGIC
     function handleWin() {
+        playCorrectSound(); // Play correct sound
         const t = state.turn === 1 ? state.t1 : state.t2;
         t.score++;
         // Creative message responses
@@ -577,6 +677,7 @@
     }
 
     function handleLoss(correctAnswer) {
+        playIncorrectSound(); // Play incorrect sound
         // Creative message responses
         const messages = ["Oops! Better luck next time.", "That was a tricky one!", "Almost there!", "Keep practicing, you'll get it!"];
         showModal(false, messages[Math.floor(Math.random() * messages.length)], correctAnswer);
