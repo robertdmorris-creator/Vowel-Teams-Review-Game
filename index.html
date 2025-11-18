@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Vowel Victory: Big Screen Edition</title>
+    <style>
+        :root {
+            --team1-color: #4834d4;
+            --team2-color: #eb4d4b;
+            --bg-color: #f7f1e3;
+            --card-bg: #ffffff;
+            --text-color: #2d3436;
+        }
+
+        * {
+            box-sizing: border-box;
+            touch-action: manipulation;
+        }
+
+        body {
+            font-family: 'Comic Sans MS', 'Chalkboard SE', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            width: 100vw;
+            overflow: hidden;
+            transition: background-color 0.5s ease;
+        }
+
+        /* Main Game Container - MAXIMIZED FOR SMARTBOARD */
+        .container {
+            background: var(--card-bg);
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            text-align: center;
+            width: 99vw;
+            height: 98vh;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            border: 8px solid #dfe6e9;
+            overflow-y: auto;
+        }
+
+        .content-wrapper {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 10px;
+            width: 100%;
+            height: 100%;
+        }
+
+        /* FULLSCREEN BUTTON */
+        .fs-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: #636e72;
+            color: white;
+            border: none;
+            padding: 15px 25px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 1.2rem;
+            font-weight: bold;
+            z-index: 50;
+            opacity: 0.7;
+        }
+        .fs-btn:hover { opacity: 1; }
+
+        /* BIG BUTTONS */
+        .btn {
+            padding: 25px 50px;
+            font-size: 2.2rem;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: transform 0.1s, box-shadow 0.1s;
+            margin: 20px;
+            box-shadow: 0 10px 0 rgba(0,0,0,0.2);
+            min-width: 200px;
+        }
+        .btn:active { transform: translateY(6px); box-shadow: 0 4px 0 rgba(0,0,0,0.2); }
+        .btn-start { background-color: #00b894; color: white; width: 50%; font-size: 3.5rem; margin-top: 40px;}
+
+        /* SETUP SCREEN */
+        .setup-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            margin-bottom: 40px;
+            width: 80%;
+        }
+        .team-config {
+            background: #f1f2f6;
+            padding: 40px;
+            border-radius: 30px;
+            box-shadow: inset 0 0 20px rgba(0,0,0,0.05);
+        }
+        .team-config h3 { font-size: 2.5rem; margin-top: 0; }
+        input[type="text"] { padding: 20px; width: 100%; border-radius: 15px; border: 3px solid #ccc; font-size: 2rem; text-align: center; }
+        input[type="color"] { height: 80px; width: 100%; border: none; cursor: pointer; margin-top: 20px; border-radius: 15px;}
+
+        /* SCOREBOARD - STRETCHED */
+        .scoreboard {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #dfe6e9;
+            padding: 15px 50px;
+            border-radius: 20px;
+            width: 95%;
+            font-size: 3rem;
+            font-weight: bold;
+            margin-top: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        .score-pill { padding: 15px 50px; border-radius: 20px; color: white; min-width: 250px; box-shadow: 0 5px 0 rgba(0,0,0,0.2);}
+
+        /* TURN BANNER */
+        .turn-banner { 
+            font-size: 3rem; 
+            margin: 20px 0; 
+            padding: 15px 60px; 
+            color: white; 
+            border-radius: 60px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
+
+        /* MODE SELECTION - BIG CARDS */
+        .mode-select { 
+            display: flex; 
+            gap: 40px; 
+            width: 100%; 
+            justify-content: center;
+            align-items: stretch;
+            flex-wrap: wrap;
+            padding: 20px;
+        }
+        .mode-card {
+            background: white;
+            border: 6px solid #b2bec3;
+            border-radius: 30px;
+            padding: 40px;
+            cursor: pointer;
+            width: 30%;
+            min-width: 350px;
+            transition: 0.2s;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .mode-card:hover { transform: scale(1.03) translateY(-10px); border-color: #0984e3; background: #eaf2ff; box-shadow: 0 20px 40px rgba(0,0,0,0.1); }
+        .mode-icon { font-size: 6rem; display: block; margin-bottom: 20px; }
+        .mode-card strong { font-size: 2.5rem; display: block; margin-bottom: 15px; color: #2d3436;}
+        .mode-card p { font-size: 1.5rem; color: #636e72; margin: 0;}
+
+        /* GAME AREA: FILL BLANK */
+        .game-area {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            flex: 1;
+        }
+        
+        .puzzle-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 60px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+        
+        .clue-box {
+            font-size: 12rem;
+            background: #ecf0f1;
+            padding: 30px;
+            border-radius: 40px;
+            border: 6px solid #bdc3c7;
+            line-height: 1;
+            animation: float 3s ease-in-out infinite;
+            box-shadow: 0 15px 0 rgba(0,0,0,0.1);
+        }
+
+        .word-puzzle { 
+            font-size: 8rem; 
+            letter-spacing: 10px; 
+            font-family: monospace; 
+            font-weight: bold; 
+            text-shadow: 4px 4px 0px rgba(0,0,0,0.1);
+        }
+        
+        .missing { color: #a29bfe; border-bottom: 10px solid #2d3436; display: inline-block; min-width: 180px; }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+            100% { transform: translateY(0px); }
+        }
+
+        /* GAME AREA: SENSE CHECK */
+        .sentence-box { 
+            font-size: 4rem; 
+            margin: 30px 0; 
+            padding: 60px; 
+            background: #fff3cd; 
+            border-radius: 30px; 
+            border: 8px dashed #ffc107;
+            line-height: 1.3;
+            width: 95%;
+            max-width: 1400px;
+        }
+
+        /* GAME AREA: PASSAGE */
+        .passage-box {
+            background: #e1f0ff;
+            padding: 40px;
+            border-radius: 30px;
+            text-align: left;
+            font-size: 2.8rem;
+            line-height: 1.5;
+            margin-bottom: 30px;
+            border-left: 15px solid #0984e3;
+            width: 95%;
+            max-width: 1400px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+        }
+        .question-text { font-weight: bold; font-size: 3.2rem; margin-bottom: 30px; color: #2d3436; }
+
+        /* POP-UP MODAL */
+        #modal-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.85);
+            z-index: 100;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(10px);
+        }
+        .modal-content {
+            background: white;
+            padding: 60px;
+            border-radius: 50px;
+            text-align: center;
+            min-width: 600px;
+            max-width: 90%;
+            box-shadow: 0 30px 80px rgba(0,0,0,0.7);
+            animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 10px solid white;
+        }
+        #modal-emoji { font-size: 10rem; margin: 0; display: block; }
+        #modal-title { font-size: 5rem; margin: 15px 0; font-weight: bold; }
+        #modal-text { font-size: 3rem; color: #636e72; margin-bottom: 50px; }
+
+        .hidden { display: none !important; }
+        @keyframes popIn { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
+        /* Custom Scrollbar for Passage */
+        ::-webkit-scrollbar { width: 12px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 10px;}
+        ::-webkit-scrollbar-thumb { background: #888; border-radius: 10px;}
+        ::-webkit-scrollbar-thumb:hover { background: #555; }
+
+    </style>
+</head>
+<body>
+
+<button class="fs-btn" onclick="toggleFullScreen()">⛶ Fullscreen</button>
+
+<div class="container">
+    
+    <!-- SCREEN 1: SETUP -->
+    <div id="setup-screen" class="content-wrapper">
+        <h1 style="font-size: 6rem; margin-bottom:20px; text-shadow: 3px 3px 0 rgba(0,0,0,0.1);">🎓 Vowel Victory</h1>
+        <h2 style="color: #636e72; font-size: 3rem;">Big Screen Edition</h2>
+        <div class="setup-grid">
+            <div class="team-config" style="border-top: 12px solid #4834d4;">
+                <h3>Team 1 Name</h3>
+                <input type="text" id="t1-name" value="Phonics Pros">
+                <br>
+                <input type="color" id="t1-color" value="#4834d4">
+            </div>
+            <div class="team-config" style="border-top: 12px solid #eb4d4b;">
+                <h3>Team 2 Name</h3>
+                <input type="text" id="t2-name" value="Vowel Voyagers">
+                <br>
+                <input type="color" id="t2-color" value="#eb4d4b">
+            </div>
+        </div>
+        <button class="btn btn-start" onclick="initGame()">START GAME ▶</button>
+    </div>
+
+    <!-- SCREEN 2: MAIN GAME HUB -->
+    <div id="game-hub" class="hidden content-wrapper" style="justify-content: flex-start;">
+        <div class="scoreboard">
+            <div id="s1-display" class="score-pill">T1: 0</div>
+            <div style="font-size: 2rem; display:flex; align-items:center; opacity: 0.6;">TARGET: 10</div>
+            <div id="s2-display" class="score-pill">T2: 0</div>
+        </div>
+
+        <div id="turn-banner" class="turn-banner">Team 1's Turn</div>
+
+        <!-- MENU -->
+        <div id="category-select" style="flex:1; display:flex; flex-direction:column; justify-content:center; width: 100%;">
+            <h2 style="font-size: 4rem; margin-bottom: 40px;">Pick a Challenge:</h2>
+            <div class="mode-select">
+                <div class="mode-card" onclick="startRound('fill')">
+                    <span class="mode-icon">🖼️</span>
+                    <strong>Missing Sounds</strong>
+                    <p>Look at the picture & spell.</p>
+                </div>
+                <div class="mode-card" onclick="startRound('sense')">
+                    <span class="mode-icon">🤔</span>
+                    <strong>Sense Check</strong>
+                    <p>Does it make sense?</p>
+                </div>
+                <div class="mode-card" onclick="startRound('passage')">
+                    <span class="mode-icon">📖</span>
+                    <strong>Story Detective</strong>
+                    <p>Read and answer.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- GAME AREA: FILL IN BLANK -->
+        <div id="game-fill" class="game-area hidden">
+            <h3 style="font-size:3.5rem;">What is this picture?</h3>
+            
+            <!-- Picture + Word Container -->
+            <div class="puzzle-container">
+                <div class="clue-box" id="fill-clue">🚀</div> 
+                <div class="word-puzzle" id="fill-word">L_ _NCH</div>
+            </div>
+
+            <div id="fill-options" style="display:flex; justify-content:center; flex-wrap:wrap; gap: 30px; margin-top: 30px;"></div>
+        </div>
+
+        <!-- GAME AREA: SENSE CHECK -->
+        <div id="game-sense" class="game-area hidden">
+            <h3 style="font-size:3.5rem;">Does this sentence make sense?</h3>
+            <div class="sentence-box" id="sense-text"></div>
+            <div style="display:flex; justify-content:center; gap:60px;">
+                <button class="btn" style="background:#00b894; color:white; min-width: 300px; font-size: 3rem;" onclick="checkSense(true)">YES 👍</button>
+                <button class="btn" style="background:#d63031; color:white; min-width: 300px; font-size: 3rem;" onclick="checkSense(false)">NO 👎</button>
+            </div>
+        </div>
+
+        <!-- GAME AREA: PASSAGE -->
+        <div id="game-passage" class="game-area hidden">
+            <h3 style="font-size:3.5rem; margin-bottom: 10px;">Read & Answer</h3>
+            <div class="passage-box" id="passage-text"></div>
+            <div class="question-text" id="passage-q"></div>
+            <div id="passage-options" style="display:flex; justify-content:center; flex-wrap:wrap; gap: 30px;"></div>
+        </div>
+
+    </div>
+    
+    <!-- SCREEN 3: WINNER -->
+    <div id="winner-screen" class="hidden content-wrapper">
+        <h1 style="font-size: 12rem; margin:0;">🏆</h1>
+        <h1 id="winner-msg" style="font-size: 7rem;">Team Wins!</h1>
+        <button class="btn btn-start" onclick="location.reload()">Play Again ↺</button>
+    </div>
+
+</div>
+
+<!-- FEEDBACK MODAL -->
+<div id="modal-overlay">
+    <div class="modal-content">
+        <span id="modal-emoji">✅</span>
+        <div id="modal-title">Correct!</div>
+        <div id="modal-text">You got a point!</div>
+        <button class="btn" style="background: #6c5ce7; color: white; width: 100%; font-size: 3rem;" onclick="closeModal()">Continue ➜</button>
+    </div>
+</div>
+
+<script>
+    // EXPANDED DATABASE (20 Items per Category)
+    const data = {
+        fill: [
+            { word: "R_ _N", ans: "AI", icon: "🌧️", opts: ["AI", "AY", "EE"] }, 
+            { word: "D_ _", ans: "AY", icon: "☀️", opts: ["AI", "AY", "OA"] }, 
+            { word: "TR_ _", ans: "EE", icon: "🌳", opts: ["EE", "EA", "IE"] }, 
+            { word: "L_ _F", ans: "EA", icon: "🍂", opts: ["EA", "EE", "AI"] }, 
+            { word: "P_ _", ans: "IE", icon: "🥧", opts: ["IE", "IGH", "AY"] }, 
+            { word: "B_ _T", ans: "OA", icon: "⛵", opts: ["OA", "OE", "OW"] }, 
+            { word: "T_ _", ans: "OE", icon: "🦶", opts: ["OE", "OA", "OW"] }, 
+            { word: "GL_ _", ans: "UE", icon: "🧴", opts: ["UE", "UI", "EW"] }, 
+            { word: "FR_ _T", ans: "UI", icon: "🍎", opts: ["UI", "UE", "OO"] }, 
+            { word: "M_ _N", ans: "OO", icon: "🌕", opts: ["OO", "OU", "EW"] }, 
+            { word: "H_ _SE", ans: "OU", icon: "🏠", opts: ["OU", "OW", "OO"] }, 
+            { word: "C_ _", ans: "OW", icon: "🐄", opts: ["OW", "OU", "OA"] }, 
+            { word: "C_ _N", ans: "OI", icon: "🪙", opts: ["OI", "OY", "IE"] }, 
+            { word: "B_ _", ans: "OY", icon: "👦", opts: ["OY", "OI", "AI"] }, 
+            { word: "S_ _CE", ans: "AU", icon: "🍝", opts: ["AU", "AW", "OR"] }, 
+            { word: "P_ _", ans: "AW", icon: "🐾", opts: ["AW", "AU", "OW"] }, 
+            { word: "DOL_ _IN", ans: "PH", icon: "🐬", opts: ["PH", "WH", "CH"] }, 
+            { word: "_ _ALE", ans: "WH", icon: "🐋", opts: ["WH", "CH", "SH"] }, 
+            { word: "_ _AIR", ans: "CH", icon: "🪑", opts: ["CH", "SH", "TH"] }, 
+            { word: "_ _ARK", ans: "SH", icon: "🦈", opts: ["SH", "CH", "TH"] }
+        ],
+        sense: [
+            { text: "The cat sat on the mat.", valid: true },
+            { text: "The pig can fly in the sky.", valid: false },
+            { text: "The sun is hot.", valid: true },
+            { text: "Fish walk on the grass.", valid: false },
+            { text: "A dog has a tail.", valid: true },
+            { text: "Ice cream is hot.", valid: false },
+            { text: "Birds have wings to fly.", valid: true },
+            { text: "Cars swim in the lake.", valid: false },
+            { text: "We sleep in a bed.", valid: true },
+            { text: "Cows say moo.", valid: true },
+            { text: "A rock is soft to eat.", valid: false },
+            { text: "Rain is wet.", valid: true },
+            { text: "Shoes go on your hands.", valid: false },
+            { text: "A ball is round.", valid: true },
+            { text: "Trees grow in the ground.", valid: true },
+            { text: "You eat soup with a shoe.", valid: false },
+            { text: "Fire is cold.", valid: false },
+            { text: "A snake has no legs.", valid: true },
+            { text: "The moon comes out at night.", valid: true },
+            { text: "Books can read themselves.", valid: false }
+        ],
+        passage: [
+            { text: "Sam has a cat. The cat is fat. It likes to nap.", q: "What does the cat like to do?", ans: "Nap", opts: ["Run", "Nap", "Fly"] },
+            { text: "The sun is up. It is hot. Jan puts on a hat.", q: "Why does Jan put on a hat?", ans: "It is hot", opts: ["It is cold", "It is hot", "It is night"] },
+            { text: "Tim has a big dog. The dog can run fast. Tim runs with the dog.", q: "Who runs with the dog?", ans: "Tim", opts: ["Sam", "Tim", "Dad"] },
+            { text: "The bug is red. It sits on a leaf. The leaf is green.", q: "What color is the bug?", ans: "Red", opts: ["Green", "Blue", "Red"] },
+            { text: "Dad cooks fish. The fish is in a pan. It smells good.", q: "Where is the fish?", ans: "In a pan", opts: ["In a pot", "In a pan", "In a tub"] },
+            { text: "The frog is green. It can jump high. It jumps into the pond.", q: "Where does the frog jump?", ans: "Into the pond", opts: ["Into the car", "Into the pond", "Into the tree"] },
+            { text: "Meg has a doll. The doll has pink hair. Meg loves her doll.", q: "What color is the doll's hair?", ans: "Pink", opts: ["Red", "Blue", "Pink"] },
+            { text: "The bus is yellow. It is big. Kids go to school on the bus.", q: "What color is the bus?", ans: "Yellow", opts: ["Green", "Yellow", "Black"] },
+            { text: "Bob has a ball. He kicks the ball. It goes in the net.", q: "What does Bob do?", ans: "Kicks the ball", opts: ["Eats the ball", "Kicks the ball", "Hides the ball"] },
+            { text: "The hen has an egg. The egg is white. The hen sits on the egg.", q: "What color is the egg?", ans: "White", opts: ["Brown", "White", "Gold"] },
+            { text: "Fox is in a box. The box is brown. Fox likes the box.", q: "Where is the Fox?", ans: "In a box", opts: ["In a hat", "In a box", "In a car"] },
+            { text: "The pig plays in mud. The mud is wet. The pig gets dirty.", q: "What happens to the pig?", ans: "Gets dirty", opts: ["Gets clean", "Gets dirty", "Gets lost"] },
+            { text: "The star is bright. It is in the sky. We see it at night.", q: "When do we see the star?", ans: "At night", opts: ["At noon", "At night", "At school"] },
+            { text: "Pat has a kite. The kite is blue. It flies in the wind.", q: "What does Pat have?", ans: "A kite", opts: ["A bike", "A kite", "A boat"] },
+            { text: "The owl says hoo. It sits in a tree. It sleeps all day.", q: "When does the owl sleep?", ans: "All day", opts: ["At night", "All day", "Never"] },
+            { text: "The car is red. It goes fast. Zoom! It is gone.", q: "How does the car go?", ans: "Fast", opts: ["Slow", "Fast", "Up"] },
+            { text: "See the bee. The bee is black and yellow. It likes the flower.", q: "What does the bee like?", ans: "The flower", opts: ["The dog", "The flower", "The rain"] },
+            { text: "The ant is small. It works hard. It carries a crumb.", q: "What is the ant carrying?", ans: "A crumb", opts: ["A log", "A crumb", "A car"] },
+            { text: "The crab is red. It has claws. It walks on the sand.", q: "What does the crab have?", ans: "Claws", opts: ["Paws", "Claws", "Shoes"] },
+            { text: "The snow is cold. It is white. We make a snowman.", q: "What do we make?", ans: "A snowman", opts: ["A sandcastle", "A snowman", "A fire"] }
+        ]
+    };
+
+    let state = {
+        t1: { name: "", color: "", score: 0 },
+        t2: { name: "", color: "", score: 0 },
+        turn: 1,
+        currentQ: null,
+        currentType: null
+    };
+
+    function toggleFullScreen() {
+        if (!document.fullscreenElement) {
+            document.documentElement.requestFullscreen();
+        } else {
+            if (document.exitFullscreen) {
+                document.exitFullscreen();
+            }
+        }
+    }
+
+    function initGame() {
+        state.t1.name = document.getElementById('t1-name').value;
+        state.t1.color = document.getElementById('t1-color').value;
+        state.t2.name = document.getElementById('t2-name').value;
+        state.t2.color = document.getElementById('t2-color').value;
+
+        document.documentElement.style.setProperty('--team1-color', state.t1.color);
+        document.documentElement.style.setProperty('--team2-color', state.t2.color);
+        
+        updateScoreboard();
+        updateTurnBanner();
+
+        document.getElementById('setup-screen').classList.add('hidden');
+        document.getElementById('game-hub').classList.remove('hidden');
+        document.getElementById('game-hub').style.display = "flex";
+    }
+
+    function updateScoreboard() {
+        const s1 = document.getElementById('s1-display');
+        const s2 = document.getElementById('s2-display');
+        
+        s1.innerText = `${state.t1.name}: ${state.t1.score}`;
+        s2.innerText = `${state.t2.name}: ${state.t2.score}`;
+        
+        s1.style.backgroundColor = state.t1.color;
+        s2.style.backgroundColor = state.t2.color;
+    }
+
+    function updateTurnBanner() {
+        const banner = document.getElementById('turn-banner');
+        const activeTeam = state.turn === 1 ? state.t1 : state.t2;
+        banner.style.backgroundColor = activeTeam.color;
+        banner.innerText = `${activeTeam.name}'s Turn!`;
+        document.body.style.backgroundColor = activeTeam.color + "40"; // 40 is hex transparency
+    }
+
+    function startRound(type) {
+        state.currentType = type;
+        document.getElementById('category-select').classList.add('hidden');
+        
+        const bank = data[type];
+        const q = bank[Math.floor(Math.random() * bank.length)];
+        state.currentQ = q;
+
+        // Hide all areas first
+        document.querySelectorAll('.game-area').forEach(el => el.classList.add('hidden'));
+        
+        // Show active area
+        const area = document.getElementById(`game-${type}`);
+        area.classList.remove('hidden');
+
+        if(type === 'fill') renderFill(q);
+        if(type === 'sense') renderSense(q);
+        if(type === 'passage') renderPassage(q);
+    }
+
+    function renderFill(q) {
+        // Set the icon
+        document.getElementById('fill-clue').innerText = q.icon;
+
+        // Set the text
+        const display = q.word.replace("_ _", `<span class='missing'>?</span>`);
+        document.getElementById('fill-word').innerHTML = display;
+        
+        const container = document.getElementById('fill-options');
+        container.innerHTML = '';
+        let opts = [...q.opts].sort(() => Math.random() - 0.5);
+        opts.forEach(opt => {
+            const btn = document.createElement('button');
+            btn.className = 'btn';
+            btn.style.background = "#74b9ff";
+            btn.innerText = opt;
+            btn.onclick = () => checkFill(opt, q.ans);
+            container.appendChild(btn);
+        });
+    }
+
+    function renderSense(q) {
+        document.getElementById('sense-text').innerText = `"${q.text}"`;
+    }
+
+    function renderPassage(q) {
+        document.getElementById('passage-text').innerText = q.text;
+        document.getElementById('passage-q').innerText = q.q;
+        const container = document.getElementById('passage-options');
+        container.innerHTML = '';
+        let opts = [...q.opts].sort(() => Math.random() - 0.5);
+        opts.forEach(opt => {
+            const btn = document.createElement('button');
+            btn.className = 'btn';
+            btn.style.background = "#a29bfe";
+            btn.innerText = opt;
+            btn.onclick = () => checkPassage(opt, q.ans);
+            container.appendChild(btn);
+        });
+    }
+
+    // CHECKERS
+    function checkFill(choice, correct) {
+        if(choice === correct) handleWin();
+        else handleLoss(correct);
+    }
+    function checkSense(userSaidYes) {
+        if(userSaidYes === state.currentQ.valid) handleWin();
+        else handleLoss(state.currentQ.valid ? "It did make sense!" : "It was nonsense!");
+    }
+    function checkPassage(choice, correct) {
+        if(choice === correct) handleWin();
+        else handleLoss(correct);
+    }
+
+    // POPUP LOGIC
+    function handleWin() {
+        const t = state.turn === 1 ? state.t1 : state.t2;
+        t.score++;
+        showModal(true, "Great job! +1 Point");
+    }
+
+    function handleLoss(correctAnswer) {
+        showModal(false, `Oops! The correct answer was: ${correctAnswer}`);
+    }
+
+    function showModal(isCorrect, msg) {
+        const modal = document.getElementById('modal-overlay');
+        const emoji = document.getElementById('modal-emoji');
+        const title = document.getElementById('modal-title');
+        const text = document.getElementById('modal-text');
+
+        modal.style.display = "flex";
+        if(isCorrect) {
+            emoji.innerText = "🌟";
+            title.innerText = "Correct!";
+            title.style.color = "#00b894";
+        } else {
+            emoji.innerText = "😢";
+            title.innerText = "Incorrect";
+            title.style.color = "#d63031";
+        }
+        text.innerText = msg;
+    }
+
+    function closeModal() {
+        document.getElementById('modal-overlay').style.display = "none";
+        
+        // Check for Game Over
+        if(state.t1.score >= 10 || state.t2.score >= 10) {
+            endGame();
+        } else {
+            resetRound();
+        }
+    }
+
+    function endGame() {
+        document.getElementById('game-hub').classList.add('hidden');
+        document.getElementById('winner-screen').classList.remove('hidden');
+        document.getElementById('winner-screen').style.display = "flex";
+        document.getElementById('winner-screen').style.flexDirection = "column";
+        
+        const winner = state.t1.score >= 10 ? state.t1 : state.t2;
+        const wTxt = document.getElementById('winner-msg');
+        wTxt.innerText = `${winner.name} WINS!`;
+        wTxt.style.color = winner.color;
+    }
+
+    function resetRound() {
+        document.querySelectorAll('.game-area').forEach(el => el.classList.add('hidden'));
+        document.getElementById('category-select').classList.remove('hidden');
+        updateScoreboard();
+        state.turn = state.turn === 1 ? 2 : 1;
+        updateTurnBanner();
+    }
+
+</script>
+</body>
+</html>
