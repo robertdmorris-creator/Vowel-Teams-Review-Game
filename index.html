@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Vowel Victory: Challenging Edition</title>
+    <title>Vowel Victory: Super Database Edition</title>
     <style>
         :root {
             --team1-color: #4834d4;
@@ -317,7 +317,7 @@
     <!-- SCREEN 1: SETUP -->
     <div id="setup-screen" class="content-wrapper">
         <h1 style="font-size: 6rem; margin-bottom:20px; text-shadow: 3px 3px 0 rgba(0,0,0,0.1);">🎓 Vowel Victory</h1>
-        <h2 style="color: #636e72; font-size: 3rem;">Challenging Edition</h2>
+        <h2 style="color: #636e72; font-size: 3rem;">Super Database Edition</h2>
         <div class="setup-grid">
             <div class="team-config" style="border-top: 12px solid #4834d4;">
                 <h3>Team 1 Name</h3>
@@ -421,9 +421,10 @@
 </div>
 
 <script>
-    // EXPANDED AND HARDER DATABASE (20 Items per Category)
+    // EXPANDED AND HARDER DATABASE (40 Items per Category)
     const data = {
         fill: [
+            // Original 20 (Mostly Vowel Teams/Digraphs)
             { word: "R_ _N", ans: "AI", icon: "🌧️", opts: ["AI", "AY", "EE"] }, 
             { word: "D_ _", ans: "AY", icon: "☀️", opts: ["AI", "AY", "OA"] }, 
             { word: "TR_ _", ans: "EE", icon: "🌳", opts: ["EE", "EA", "IE"] }, 
@@ -443,9 +444,31 @@
             { word: "DOL_ _IN", ans: "PH", icon: "🐬", opts: ["PH", "WH", "CH"] }, 
             { word: "_ _ALE", ans: "WH", icon: "🐋", opts: ["WH", "CH", "SH"] }, 
             { word: "_ _AIR", ans: "CH", icon: "🪑", opts: ["CH", "SH", "TH"] }, 
-            { word: "_ _ARK", ans: "SH", icon: "🦈", opts: ["SH", "CH", "TH"] }
+            { word: "_ _ARK", ans: "SH", icon: "🦈", opts: ["SH", "CH", "TH"] },
+            // New 20 (R-Controlled Vowels, Harder Digraphs/Blends)
+            { word: "B_ _D", ans: "IR", icon: "🐦", opts: ["IR", "ER", "UR"] }, // Bird
+            { word: "T_ _TLE", ans: "UR", icon: "🐢", opts: ["UR", "IR", "OR"] }, // Turtle
+            { word: "H_ _SE", ans: "OR", icon: "🐴", opts: ["OR", "AR", "ER"] }, // Horse
+            { word: "ST_ _", ans: "AR", icon: "⭐", opts: ["AR", "OR", "IR"] }, // Star
+            { word: "F_ _E", ans: "IRE", icon: "🔥", opts: ["IRE", "AIR", "EAR"] }, // Fire
+            { word: "C_ _P", ans: "AMP", icon: "🏕️", opts: ["AMP", "IMP", "UMP"] }, // Camp
+            { word: "SQU_ _L", ans: "IRR", icon: "🐿️", opts: ["IRR", "URR", "ARR"] }, // Squirrel
+            { word: "BR_ _D", ans: "EAD", icon: "🍞", opts: ["EAD", "EED", "AIT"] }, // Bread
+            { word: "W_ _L", ans: "EEL", icon: "⚙️", opts: ["EEL", "EAL", "AIL"] }, // Wheel
+            { word: "M_ _TH", ans: "OU", icon: "👄", opts: ["OU", "OO", "AW"] }, // Mouth
+            { word: "TH_ _MB", ans: "U", icon: "👍", opts: ["U", "A", "I"] }, // Thumb (silent B)
+            { word: "W_ _CH", ans: "AT", icon: "⌚", opts: ["AT", "IT", "ET"] }, // Watch
+            { word: "FR_ _G", ans: "OG", icon: "🐸", opts: ["OG", "AG", "UG"] }, // Frog
+            { word: "DR_ _SS", ans: "E", icon: "👗", opts: ["E", "A", "I"] }, // Dress
+            { word: "CL_ _P", ans: "I", icon: "📎", opts: ["I", "E", "A"] }, // Clip
+            { word: "GR_ _P", ans: "APE", icon: "🍇", opts: ["APE", "OPP", "AIL"] }, // Grape (long A)
+            { word: "S_ _M", ans: "WIM", icon: "🏊", opts: ["WIM", "WUM", "WAM"] }, // Swim
+            { word: "P_ _NE", ans: "I", icon: "🌲", opts: ["I", "O", "E"] }, // Pine (silent E)
+            { word: "L_ _T", ans: "IGH", icon: "💡", opts: ["IGH", "IE", "IET"] }, // Light
+            { word: "SC_ _RF", ans: "AR", icon: "🧣", opts: ["AR", "OR", "ER"] } // Scarf
         ],
         sense: [
+            // Original 20 (Challenging Logic)
             { text: "The honest principal of the school gave the students a present.", valid: true },
             { text: "The brave pilot used a small shovel to steer the boat across the ocean.", valid: false }, // Shovel/boat
             { text: "She wore a bright, yellow coat to keep her warm in the summer heat.", valid: false }, // Coat/Summer heat
@@ -465,9 +488,31 @@
             { text: "My alarm clock began to quietly sing a soothing song to wake me up.", valid: false }, // Quietly/Wake up
             { text: "We need to collect the wet firewood to start the fire on this rainy evening.", valid: false }, // Wet firewood/start fire
             { text: "The professional dancer executed a flawless leap across the smooth stage.", valid: true },
-            { text: "I used a tiny scoop to fill the giant swimming pool with water.", valid: true } // Tiny scoop is inefficient, but technically possible
+            { text: "I used a tiny scoop to fill the giant swimming pool with water.", valid: true }, // Tiny scoop is inefficient, but technically possible
+            // New 20 (More Advanced Logical Errors)
+            { text: "The large, striped fish climbed the ladder to polish the window.", valid: false }, // Fish can't climb ladders
+            { text: "He used a tiny straw to empty the massive swimming pool in an hour.", valid: false }, // Impossible timescale/tool
+            { text: "Although the road was icy, the school bus accelerated quickly and drove safely.", valid: false }, // Icy road + accelerate quickly = unsafe/illogical
+            { text: "The librarian spoke loudly into a megaphone so everyone could hear her request for silence.", valid: false }, // Megaphone/loud speech contradicts request for silence
+            { text: "The tired astronaut floated gently down to Earth, landing softly in his armchair.", valid: false }, // Astronauts land in capsules, not armchairs
+            { text: "The ancient clock was designed to run backward, telling us about the future.", valid: false }, // Clocks run forward, future knowledge is illogical
+            { text: "Because the coffee was piping hot, she decided to put ice cubes in her oven.", valid: false }, // Putting ice cubes in oven is illogical reaction
+            { text: "The sculptor used a soft pillow to carve the marble statue's delicate features.", valid: false }, // Soft pillow cannot carve marble
+            { text: "The sun sets in the East, which is why the afternoon is always the coldest part of the day.", valid: false }, // Sun sets West, afternoon is usually warm
+            { text: "The diligent student revised her notes before the exam and was confident in her knowledge.", valid: true },
+            { text: "A cheetah, known for its speed, can run across a small lake without getting wet.", valid: false }, // Cheetahs don't walk on water
+            { text: "The farmer planted seeds in the dry, rocky soil, expecting a huge harvest of corn.", valid: false }, // Seeds need fertile/moist soil
+            { text: "The young apprentice spent years mastering his craft under the careful guidance of his mentor.", valid: true },
+            { text: "The tiny bird built its nest out of strong steel beams and concrete for maximum protection.", valid: false }, // Birds use twigs/natural materials
+            { text: "The fire alarm blared loudly, signaling that there was no immediate danger.", valid: false }, // Fire alarms signal danger
+            { text: "To save time, the doctor scheduled several complex operations for the same five minutes.", valid: false }, // Impossible scheduling
+            { text: "The shy, quiet man was elected mayor because he delivered a powerful, energetic speech.", valid: false }, // Personality/Action contradiction
+            { text: "All dogs are mammals because they have fur, breathe air, and give live birth.", valid: true }, // Simple factual/logical truth
+            { text: "To win the swimming competition, the athlete decided to only practice riding a bicycle.", valid: false }, // Irrelevant practice
+            { text: "The massive cruise ship anchored safely in the shallow water next to the sandy shore.", valid: false } // Cruise ships need deep water
         ],
         passage: [
+            // Original 20 (Longer, Challenging Comprehension)
             { 
                 text: "The annual school fair was a huge success. The children enjoyed the face-painting booth and the various games of chance. However, the most popular attraction was the 'Science Surprise' exhibit, where a local chemist demonstrated how to safely mix baking soda and vinegar to create a volcano eruption. Every student was fascinated by the bubbling liquid and the loud fizzing sound.",
                 q: "What was the most popular attraction at the fair?",
@@ -587,6 +632,127 @@
                 q: "What color was the ink used to write the note?",
                 ans: "Blue",
                 opts: ["Black", "Red", "Blue"]
+            },
+            // New 20 (More Advanced Passages)
+            { 
+                text: "Marcus, the experienced dog walker, navigated the busy city park with five dogs. He relied less on leashes and more on a specialized **harness** system and voice commands to keep the pack orderly. His greatest challenge wasn't the dogs, but remembering which treats each dog preferred.",
+                q: "What is the walker's primary tool for managing multiple dogs?",
+                ans: "A specialized harness",
+                opts: ["Extra long leashes", "A specialized harness", "A loud whistle"]
+            },
+            { 
+                text: "The pastry chef focused intently on the tiramisu. Every layer of ladyfingers and mascarpone was perfect. Before sending it out, she performed one last, delicate step: dusting the top of the dessert with a fine layer of **powdered sugar** to enhance the presentation.",
+                q: "What is the final step before the dessert is served?",
+                ans: "Dusting with powdered sugar",
+                opts: ["Adding a cherry", "Dusting with powdered sugar", "Warming it slightly"]
+            },
+            { 
+                text: "In the late 17th century, inventor Thomas sought a solution to the slowness of messengers. He worked tirelessly, experimenting with mirrors and lights, eventually devising a method to relay messages quickly using coded flashes across vast distances. His true **goal** was simply to overcome geographical separation.",
+                q: "What was the inventor's ultimate goal with his invention?",
+                ans: "Sending messages over long distances",
+                opts: ["Making money", "Sending messages over long distances", "Creating a new light source"]
+            },
+            { 
+                text: "Dr. Chen examined the massive rock face. The deep **striations**, or grooves, running vertically down the granite were puzzling. After consulting historical geological records, she concluded the only phenomenon powerful enough to score the rock like that must have been **ancient glacial movement** thousands of years prior.",
+                q: "What phenomenon caused the deep grooves in the rock face?",
+                ans: "Ancient glacial movement",
+                opts: ["Volcanic lava flow", "Ancient glacial movement", "Heavy wind erosion"]
+            },
+            { 
+                text: "Liam and his friends arrived at the campsite late. They unrolled their tent, only to realize the crucial **tent poles** were missing, left leaning against the garage door. Faced with a choice, they opted to use their sleeping bags and sleep under the open sky, enjoying the unexpected stars.",
+                q: "Why did the group choose to sleep outside the tent?",
+                ans: "They forgot the tent poles",
+                opts: ["They forgot their sleeping bags", "It was too cold inside", "They forgot the tent poles"]
+            },
+            { 
+                text: "A hush fell over the packed theater as the musicians picked up their instruments. Before the maestro raised his baton, the **oboe** played a single, clear A-note. This established the correct pitch, ensuring every string and wind instrument was in perfect harmony.",
+                q: "Which instrument sets the initial pitch for the orchestra?",
+                ans: "The oboe",
+                opts: ["The first violin", "The cello", "The oboe"]
+            },
+            { 
+                text: "Deep in the forest, survivalist Anya moved silently. She heard the distinct, sharp **snap of a twig** about fifty yards ahead. This small sound, impossible to miss in the profound silence, instantly alerted her that a large, cautious deer was approaching the stream.",
+                q: "What sound alerted the character to the approaching deer?",
+                ans: "The snapping of a twig",
+                opts: ["A gentle rustle of leaves", "The snapping of a twig", "A distant bird call"]
+            },
+            { 
+                text: "The town council met to discuss the 80-year-old steel bridge. While beautiful, routine inspections revealed that its structural integrity was severely **compromised** due to rust and wear. The engineers unanimously agreed that a complete replacement, not just a repair, was mandatory for public safety.",
+                q: "What is the main reason for replacing the old bridge?",
+                ans: "The structural integrity is compromised",
+                opts: ["It is too ugly", "It is too expensive to maintain", "The structural integrity is compromised"]
+            },
+            { 
+                text: "Five-year-old Maya insisted she was ready to ride without help. Her dad carefully removed the **training wheels** and gave her a gentle push. After a few wobbles and a minor tumble, Maya was soaring across the driveway, experiencing true balance for the first time.",
+                q: "What part of the bike did the parent remove first?",
+                ans: "The training wheels",
+                opts: ["The front tire", "The training wheels", "The seat"]
+            },
+            { 
+                text: "Environmental scientist Dr. Lee needed to monitor thermal pollution far from the research vessel. Since deploying buoys was impractical, she relied on high-resolution **satellite feed** data which provided accurate, real-time measurements of the water temperature across hundreds of miles of ocean.",
+                q: "What is the scientist using to collect data far from the coast?",
+                ans: "High-resolution satellite feed",
+                opts: ["A fleet of submarines", "An underwater drone", "High-resolution satellite feed"]
+            },
+            { 
+                text: "The artist prepared to paint a large mural on the side of a building. He chose **acrylic** paints specifically because they dry much **faster** than oil-based paints, which was crucial given the unpredictable nature of outdoor weather and the tight deadline for the commission.",
+                q: "Why did the artist choose acrylic over oil paint?",
+                ans: "Faster drying time",
+                opts: ["Brighter colors", "Slower drying time", "Faster drying time"]
+            },
+            { 
+                text: "Student Alex stared at the math problem: calculate the average speed of the rocket. The only missing piece of information was the **time elapsed** during the journey. Without that crucial variable, he knew the complex distance formula was useless.",
+                q: "What was the hidden variable required for the solution?",
+                ans: "The time elapsed",
+                opts: ["The rocket's mass", "The force of gravity", "The time elapsed"]
+            },
+            { 
+                text: "At the observatory, the astronomy club gathered to view Jupiter. One excited newcomer pointed out a bright object, mistaking it for a star. The club president corrected him gently, explaining it was actually a distant **planet**, reflecting the sun's light.",
+                q: "What celestial body did they initially mistake for a star?",
+                ans: "A distant planet",
+                opts: ["A meteor", "A distant planet", "A satellite"]
+            },
+            { 
+                text: "Farmer Giles was frustrated by the small aphids attacking his tomato plants. Rather than using harsh chemicals, he implemented a natural, biological deterrent: he deployed thousands of **ladybugs**, which feed on aphids without damaging the crops.",
+                q: "What natural deterrent did the farmer deploy to protect the crops?",
+                ans: "Ladybugs",
+                opts: ["Bird netting", "Snails", "Ladybugs"]
+            },
+            { 
+                text: "Journalist Clara was on a tight deadline for a breaking story. She had seconds to submit her article to the editor. Knowing this, she checked every quote and date multiple times, prioritizing **factual accuracy** and source verification over stylistic polish or clever phrasing.",
+                q: "What did the journalist prioritize over stylistic polish?",
+                ans: "Factual accuracy",
+                opts: ["A catchy title", "Factual accuracy", "Long paragraphs"]
+            },
+            { 
+                text: "Lost in the desert, the exhausted traveler found a discarded piece of mirror. He knew that by tilting it correctly, he could use the sun's reflection to signal an **overhead aircraft** or a distant vehicle. This basic knowledge could be the difference between rescue and peril.",
+                q: "What was the traveler attempting to signal with the mirror?",
+                ans: "An overhead aircraft",
+                opts: ["A ground fire", "An overhead aircraft", "A desert ship"]
+            },
+            { 
+                text: "During the science lecture, the teacher asked the class which type of energy is stored, ready for use. She used the example of a highly **compressed spring** or a rock sitting atop a hill to illustrate **potential energy**—energy waiting to be released.",
+                q: "Which type of energy is stored in a compressed spring?",
+                ans: "Potential energy",
+                opts: ["Kinetic energy", "Thermal energy", "Potential energy"]
+            },
+            { 
+                text: "Mr. Henderson needed to travel quickly from London to Edinburgh. He purchased the **non-stop express ticket**, ensuring his journey would be completed in the shortest possible time without the delays caused by local station stops.",
+                q: "What ticket type did the traveler purchase to avoid delays?",
+                ans: "A non-stop express ticket",
+                opts: ["A last-minute ticket", "A non-stop express ticket", "A first-class ticket"]
+            },
+            { 
+                text: "Sarah was halfway through mixing the cookie dough when she tasted it and realized something was wrong: the cookies wouldn't rise. She mentally reviewed the recipe and immediately identified the missing ingredient: **baking soda**, the chemical leavener.",
+                q: "What ingredient did the character realize they forgot?",
+                ans: "Baking soda",
+                opts: ["Sugar", "Vanilla extract", "Baking soda"]
+            },
+            { 
+                text: "The museum curator oversaw the delicate preparation of the antique textile exhibit. To prevent the ancient fabrics from deteriorating, she mandated that the room be kept at extremely **low humidity** and that all overhead lights be dimmed to a faint level.",
+                q: "What specific environment is required for the antique textiles?",
+                ans: "Low humidity and dim light",
+                opts: ["High temperature and bright light", "Low humidity and dim light", "Normal office conditions"]
             }
         ]
     };
