@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Vowel Victory: Super Database Edition</title>
+    <title>Vowel Victory: Decodable Edition</title>
     <style>
         :root {
             --team1-color: #4834d4;
@@ -250,8 +250,8 @@
             border-left: 15px solid #0984e3;
             width: 95%;
             max-width: 1400px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-            max-height: 30vh; /* Reduced height to ensure no page scroll */
+            /* TIGHTER MAX HEIGHT FOR SMART BOARD FIT */
+            max-height: 25vh; 
             overflow-y: auto; /* Internal scrolling for long passages */
         }
         .question-text { 
@@ -317,7 +317,7 @@
     <!-- SCREEN 1: SETUP -->
     <div id="setup-screen" class="content-wrapper">
         <h1 style="font-size: 6rem; margin-bottom:20px; text-shadow: 3px 3px 0 rgba(0,0,0,0.1);">🎓 Vowel Victory</h1>
-        <h2 style="color: #636e72; font-size: 3rem;">Super Database Edition</h2>
+        <h2 style="color: #636e72; font-size: 3rem;">Decodable Edition</h2>
         <div class="setup-grid">
             <div class="team-config" style="border-top: 12px solid #4834d4;">
                 <h3>Team 1 Name</h3>
@@ -421,10 +421,10 @@
 </div>
 
 <script>
-    // EXPANDED AND HARDER DATABASE (40 Items per Category)
+    // EXPANDED AND SIMPLIFIED DATABASE (40 Items per Category for Sense and Passage)
     const data = {
         fill: [
-            // Original 20 (Mostly Vowel Teams/Digraphs)
+            // Keeping original 20 phonics questions for core practice
             { word: "R_ _N", ans: "AI", icon: "🌧️", opts: ["AI", "AY", "EE"] }, 
             { word: "D_ _", ans: "AY", icon: "☀️", opts: ["AI", "AY", "OA"] }, 
             { word: "TR_ _", ans: "EE", icon: "🌳", opts: ["EE", "EA", "IE"] }, 
@@ -444,316 +444,97 @@
             { word: "DOL_ _IN", ans: "PH", icon: "🐬", opts: ["PH", "WH", "CH"] }, 
             { word: "_ _ALE", ans: "WH", icon: "🐋", opts: ["WH", "CH", "SH"] }, 
             { word: "_ _AIR", ans: "CH", icon: "🪑", opts: ["CH", "SH", "TH"] }, 
-            { word: "_ _ARK", ans: "SH", icon: "🦈", opts: ["SH", "CH", "TH"] },
-            // New 20 (R-Controlled Vowels, Harder Digraphs/Blends)
-            { word: "B_ _D", ans: "IR", icon: "🐦", opts: ["IR", "ER", "UR"] }, // Bird
-            { word: "T_ _TLE", ans: "UR", icon: "🐢", opts: ["UR", "IR", "OR"] }, // Turtle
-            { word: "H_ _SE", ans: "OR", icon: "🐴", opts: ["OR", "AR", "ER"] }, // Horse
-            { word: "ST_ _", ans: "AR", icon: "⭐", opts: ["AR", "OR", "IR"] }, // Star
-            { word: "F_ _E", ans: "IRE", icon: "🔥", opts: ["IRE", "AIR", "EAR"] }, // Fire
-            { word: "C_ _P", ans: "AMP", icon: "🏕️", opts: ["AMP", "IMP", "UMP"] }, // Camp
-            { word: "SQU_ _L", ans: "IRR", icon: "🐿️", opts: ["IRR", "URR", "ARR"] }, // Squirrel
-            { word: "BR_ _D", ans: "EAD", icon: "🍞", opts: ["EAD", "EED", "AIT"] }, // Bread
-            { word: "W_ _L", ans: "EEL", icon: "⚙️", opts: ["EEL", "EAL", "AIL"] }, // Wheel
-            { word: "M_ _TH", ans: "OU", icon: "👄", opts: ["OU", "OO", "AW"] }, // Mouth
-            { word: "TH_ _MB", ans: "U", icon: "👍", opts: ["U", "A", "I"] }, // Thumb (silent B)
-            { word: "W_ _CH", ans: "AT", icon: "⌚", opts: ["AT", "IT", "ET"] }, // Watch
-            { word: "FR_ _G", ans: "OG", icon: "🐸", opts: ["OG", "AG", "UG"] }, // Frog
-            { word: "DR_ _SS", ans: "E", icon: "👗", opts: ["E", "A", "I"] }, // Dress
-            { word: "CL_ _P", ans: "I", icon: "📎", opts: ["I", "E", "A"] }, // Clip
-            { word: "GR_ _P", ans: "APE", icon: "🍇", opts: ["APE", "OPP", "AIL"] }, // Grape (long A)
-            { word: "S_ _M", ans: "WIM", icon: "🏊", opts: ["WIM", "WUM", "WAM"] }, // Swim
-            { word: "P_ _NE", ans: "I", icon: "🌲", opts: ["I", "O", "E"] }, // Pine (silent E)
-            { word: "L_ _T", ans: "IGH", icon: "💡", opts: ["IGH", "IE", "IET"] }, // Light
-            { word: "SC_ _RF", ans: "AR", icon: "🧣", opts: ["AR", "OR", "ER"] } // Scarf
+            { word: "_ _ARK", ans: "SH", icon: "🦈", opts: ["SH", "CH", "TH"] }
         ],
         sense: [
-            // Original 20 (Challenging Logic)
-            { text: "The honest principal of the school gave the students a present.", valid: true },
-            { text: "The brave pilot used a small shovel to steer the boat across the ocean.", valid: false }, // Shovel/boat
-            { text: "She wore a bright, yellow coat to keep her warm in the summer heat.", valid: false }, // Coat/Summer heat
-            { text: "The ancient oak tree grew quickly and was harvested for immediate timber.", valid: false }, // Ancient/Quickly/Immediate
-            { text: "The little boy watched the flock of geese glide gracefully through the crisp winter sky.", valid: true },
-            { text: "The mountain's peek was impossible to see through the clear binoculars.", valid: false }, // Peek/Peak
-            { text: "He used a tiny piece of wet paper to repair the hole in the sturdy wooden wall.", valid: false }, // Paper/repair
-            { text: "After the lengthy competition, the players felt exhausted and celebrated loudly.", valid: true },
-            { text: "The small puppy drove the heavy construction vehicle carefully down the main street.", valid: false }, // Puppy/Drove
-            { text: "The professional cook prepared a delicious meal using fresh vegetables and spices.", valid: true },
-            { text: "We decided to walk to the grocery store to buy new shoes for the race.", valid: false }, // Grocery store/shoes
-            { text: "The mechanic fixed the broken engine by installing a brand new tire.", valid: false }, // Engine/Tire
-            { text: "She read a fantastic novel, summarizing the final chapter before reading it.", valid: false }, // Summarizing/before
-            { text: "The thirsty camel drank a massive amount of salt water to replenish its energy.", valid: false }, // Salt water/Replenish
-            { text: "The bright light of the morning sun illuminated the entire kitchen.", valid: true },
-            { text: "The gardener planted vibrant, red seeds in the dark soil to grow vegetables.", valid: true }, // Seeds/Grow
-            { text: "My alarm clock began to quietly sing a soothing song to wake me up.", valid: false }, // Quietly/Wake up
-            { text: "We need to collect the wet firewood to start the fire on this rainy evening.", valid: false }, // Wet firewood/start fire
-            { text: "The professional dancer executed a flawless leap across the smooth stage.", valid: true },
-            { text: "I used a tiny scoop to fill the giant swimming pool with water.", valid: true }, // Tiny scoop is inefficient, but technically possible
-            // New 20 (More Advanced Logical Errors)
-            { text: "The large, striped fish climbed the ladder to polish the window.", valid: false }, // Fish can't climb ladders
-            { text: "He used a tiny straw to empty the massive swimming pool in an hour.", valid: false }, // Impossible timescale/tool
-            { text: "Although the road was icy, the school bus accelerated quickly and drove safely.", valid: false }, // Icy road + accelerate quickly = unsafe/illogical
-            { text: "The librarian spoke loudly into a megaphone so everyone could hear her request for silence.", valid: false }, // Megaphone/loud speech contradicts request for silence
-            { text: "The tired astronaut floated gently down to Earth, landing softly in his armchair.", valid: false }, // Astronauts land in capsules, not armchairs
-            { text: "The ancient clock was designed to run backward, telling us about the future.", valid: false }, // Clocks run forward, future knowledge is illogical
-            { text: "Because the coffee was piping hot, she decided to put ice cubes in her oven.", valid: false }, // Putting ice cubes in oven is illogical reaction
-            { text: "The sculptor used a soft pillow to carve the marble statue's delicate features.", valid: false }, // Soft pillow cannot carve marble
-            { text: "The sun sets in the East, which is why the afternoon is always the coldest part of the day.", valid: false }, // Sun sets West, afternoon is usually warm
-            { text: "The diligent student revised her notes before the exam and was confident in her knowledge.", valid: true },
-            { text: "A cheetah, known for its speed, can run across a small lake without getting wet.", valid: false }, // Cheetahs don't walk on water
-            { text: "The farmer planted seeds in the dry, rocky soil, expecting a huge harvest of corn.", valid: false }, // Seeds need fertile/moist soil
-            { text: "The young apprentice spent years mastering his craft under the careful guidance of his mentor.", valid: true },
-            { text: "The tiny bird built its nest out of strong steel beams and concrete for maximum protection.", valid: false }, // Birds use twigs/natural materials
-            { text: "The fire alarm blared loudly, signaling that there was no immediate danger.", valid: false }, // Fire alarms signal danger
-            { text: "To save time, the doctor scheduled several complex operations for the same five minutes.", valid: false }, // Impossible scheduling
-            { text: "The shy, quiet man was elected mayor because he delivered a powerful, energetic speech.", valid: false }, // Personality/Action contradiction
-            { text: "All dogs are mammals because they have fur, breathe air, and give live birth.", valid: true }, // Simple factual/logical truth
-            { text: "To win the swimming competition, the athlete decided to only practice riding a bicycle.", valid: false }, // Irrelevant practice
-            { text: "The massive cruise ship anchored safely in the shallow water next to the sandy shore.", valid: false } // Cruise ships need deep water
+            // 40 SIMPLE DECODABLE SENTENCES
+            { text: "A cap is on the man's head.", valid: true },
+            { text: "The cat sat on the mat.", valid: true },
+            { text: "The dog can swim in the mud.", valid: true },
+            { text: "The cup is full of hot soup.", valid: true },
+            { text: "I see a big pig on a hill.", valid: true },
+            { text: "The sun is hot today.", valid: true },
+            { text: "A red hen can peck for seeds.", valid: true },
+            { text: "My friend ran fast on the track.", valid: true },
+            { text: "The fan is on the bed.", valid: true },
+            { text: "The coat is warm in the cold snow.", valid: true },
+            { text: "She will meet me by the tall tree.", valid: true },
+            { text: "The light is bright at night.", valid: true },
+            { text: "The boat will float on the pond.", valid: true },
+            { text: "I threw the ball and it bounced high.", valid: true },
+            { text: "We sit on a chair to eat.", valid: true },
+            { text: "The bird sings a sweet song.", valid: true },
+            { text: "The clock tells the right time.", valid: true },
+            { text: "The rain is wet and cool.", valid: true },
+            { text: "The teacher gave us a fun game.", valid: true },
+            { text: "I ate a slice of sweet bread.", valid: true },
+            
+            { text: "A fish can fly up in the sky.", valid: false }, // Illogical (fish/fly)
+            { text: "My mom will sip the pot with a fork.", valid: false }, // Illogical (sip pot/fork)
+            { text: "The map is on the top of the cup.", valid: false }, // Illogical (map/cup)
+            { text: "The pig has six legs and ten feet.", valid: false }, // Factual error (legs/feet)
+            { text: "I hear the bell yell a loud song.", valid: false }, // Illogical (bell/yell)
+            { text: "He put a piece of pie in his eye.", valid: false }, // Illogical/Silly (pie/eye)
+            { text: "We can joy in the sun with a boat.", valid: false }, // Illogical (joy is not a verb here)
+            { text: "The cow will say meow to the moon.", valid: false }, // Factual error (cow/meow)
+            { text: "The green bean is blue, not green.", valid: false }, // Illogical (green/blue contradiction)
+            { text: "My nose has three tips and two mouths.", valid: false }, // Factual error (nose/mouths)
+            { text: "The mouse is big like a house.", valid: false }, // Factual error (mouse/house)
+            { text: "My hair is red and blue and green.", valid: false }, // Improbable (hair colors)
+            { text: "My bike can fly to the top of the tree.", valid: false }, // Illogical (bike/fly)
+            { text: "I threw a shoe at the moon.", valid: false }, // Illogical (shoe/moon)
+            { text: "The chef baked the big ship.", valid: false }, // Illogical (chef/baked ship)
+            { text: "The red wagon ran after the boy.", valid: false }, // Illogical (wagon runs)
+            { text: "We see stars in the day light.", valid: false }, // Factual error (stars/day)
+            { text: "The cat chased the small car.", valid: false }, // Illogical (cat chases car)
+            { text: "She eats soup with a big shoe.", valid: false }, // Illogical (soup/shoe)
+            { text: "The fire is made of cold ice.", valid: false } // Factual error (fire/ice)
         ],
         passage: [
-            // Original 20 (Longer, Challenging Comprehension)
-            { 
-                text: "The annual school fair was a huge success. The children enjoyed the face-painting booth and the various games of chance. However, the most popular attraction was the 'Science Surprise' exhibit, where a local chemist demonstrated how to safely mix baking soda and vinegar to create a volcano eruption. Every student was fascinated by the bubbling liquid and the loud fizzing sound.",
-                q: "What was the most popular attraction at the fair?",
-                ans: "The 'Science Surprise' exhibit",
-                opts: ["Face-painting", "Games of chance", "The 'Science Surprise' exhibit"]
-            },
-            { 
-                text: "Captain Iris sailed her boat, 'The Voyager', across the wide ocean. Her goal was to reach the distant island of Kael before the new moon appeared. She carefully navigated through the dense fog, using only her compass and the bright star above the mast to guide her. She knew that relying on modern technology would take away from the true adventure.",
-                q: "What tools did Captain Iris rely on for navigation?",
-                ans: "Compass and a bright star",
-                opts: ["Radio and GPS", "Compass and a bright star", "Modern Technology"]
-            },
-            { 
-                text: "The library was a quiet place, filled with the aroma of aged paper. Maya searched for a book on ancient reptiles, but all the copies were checked out. She decided instead to read about deep-sea creatures, specifically the giant squid. She sat in a cozy chair by the window, the rain tapping softly against the pane as she began her aquatic adventure.",
-                q: "What creature did Maya decide to read about instead of reptiles?",
-                ans: "The giant squid",
-                opts: ["Ancient dragons", "Deep-sea fish", "The giant squid"]
-            },
-            { 
-                text: "Before beginning the excavation, the archaeologist took careful measurements. The site, rumored to hold artifacts from a forgotten civilization, was located beneath a massive sand dune. The team had to use specialized equipment to slowly move the sand without damaging any potential relics beneath the surface. Patience was the most valuable tool they carried.",
-                q: "What was the primary concern when moving the sand from the site?",
-                ans: "Damaging potential relics",
-                opts: ["Moving too slowly", "Damaging the equipment", "Damaging potential relics"]
-            },
-            { 
-                text: "Elias loved baking. His grandmother, a retired pastry chef, taught him all her secret recipes. Today, they were making apple pie. Elias had to mix the cinnamon and sugar into the apples before placing the golden crust on top. The delicious scent filled the entire house, signaling a sweet reward after all their hard work.",
-                q: "Which ingredients were mixed into the apples before the crust was added?",
-                ans: "Cinnamon and sugar",
-                opts: ["Milk and butter", "Flour and water", "Cinnamon and sugar"]
-            },
-            { 
-                text: "The little stream, usually a gentle ribbon of water, had turned into a rushing torrent after the heavy rainfall. The beaver colony downstream was working furiously to reinforce their dam. They needed strong, thick branches, not just thin twigs, to withstand the immense pressure of the floodwaters.",
-                q: "What caused the stream to become a rushing torrent?",
-                ans: "Heavy rainfall",
-                opts: ["A beaver dam break", "Heavy rainfall", "Snow melting"]
-            },
-            { 
-                text: "Sarah was an avid stamp collector. Her latest acquisition was a rare 1920 stamp from France, featuring a picture of the Eiffel Tower. She stored it carefully in her album, making sure to use special tweezers so the oils from her fingers would not damage the delicate paper or fade the ink.",
-                q: "Why did Sarah use tweezers to handle the stamp?",
-                ans: "To prevent oil damage",
-                opts: ["To make it shine", "To prevent oil damage", "To count them easily"]
-            },
-            { 
-                text: "The robotic vacuum cleaner silently moved across the polished wooden floor. It used sensors to detect dirt and avoid obstacles like furniture legs and thick rugs. Its main purpose was to maintain a pristine environment while its owner was away on their annual vacation.",
-                q: "What does the vacuum cleaner use to avoid furniture?",
-                ans: "Sensors",
-                opts: ["Wheels", "Sensors", "A remote control"]
-            },
-            { 
-                text: "The old lighthouse stood tall on the rocky coast. Its powerful beam of light spun every ten seconds, guiding ships safely away from the treacherous reefs hidden just beneath the surface. It was a beacon of hope for sailors navigating the dark, stormy North Atlantic waters.",
-                q: "How often did the lighthouse's light beam spin?",
-                ans: "Every ten seconds",
-                opts: ["Every minute", "Every ten seconds", "Constantly"]
-            },
-            { 
-                text: "Professor Kim explained that the smallest particles of matter are called atoms. Everything we see—from a blade of grass to a towering skyscraper—is constructed from billions of these tiny components. Understanding how atoms bond is the first step in mastering the complex science of chemistry.",
-                q: "According to Professor Kim, what are the smallest particles of matter called?",
-                ans: "Atoms",
-                opts: ["Skyscrapers", "Molecules", "Atoms"]
-            },
-            { 
-                text: "During the solar eclipse, the entire town paused. People put on special filtered glasses to safely watch the moon completely block the sun's light. The temperature suddenly dropped, and the chickens in the nearby coop mistakenly thought it was evening and went to roost.",
-                q: "Why did the people wear special filtered glasses?",
-                ans: "To watch safely",
-                opts: ["To see better", "To keep warm", "To watch safely"]
-            },
-            { 
-                text: "The music recital was postponed because the concert hall's piano had a broken key. The pianist decided to practice her cello instead, focusing on a difficult Bach piece. She spent the entire afternoon perfecting the low, resonant notes, hoping the piano would be repaired by the following day.",
-                q: "What instrument did the pianist practice instead?",
-                ans: "Cello",
-                opts: ["Violin", "Flute", "Cello"]
-            },
-            { 
-                text: "While hiking through the dense forest, Liam noticed a peculiar bird with emerald-green feathers. He quickly took out his field guide to identify it. The guide confirmed it was a rare South American Quetzal, far from its native jungle habitat, which confused him greatly.",
-                q: "What feature of the bird did Liam use to identify it?",
-                ans: "Emerald-green feathers",
-                opts: ["Its size", "Emerald-green feathers", "Its song"]
-            },
-            { 
-                text: "The student council voted unanimously to adopt a new recycling program. The plan included placing bright blue bins in every classroom for paper and plastic. The goal was to reduce the school's overall waste by twenty percent before the end of the semester.",
-                q: "What color were the new recycling bins?",
-                ans: "Bright blue",
-                opts: ["Dark green", "Bright blue", "Yellow"]
-            },
-            { 
-                text: "The chef realized he was missing the key ingredient for his famous tomato soup: basil. He sent his assistant to the local market, instructing them to find the freshest bunch possible. The soup would not have the same aromatic complexity without the required herb.",
-                q: "What was the missing key ingredient for the tomato soup?",
-                ans: "Basil",
-                opts: ["Salt", "Cream", "Basil"]
-            },
-            { 
-                text: "Astronaut Mia completed her spacewalk to repair the satellite's solar panel. The silence of space was profound, only broken by the faint crackle of her radio. She carefully used a wrench to tighten the loose bolt, a task that required extreme precision and patience.",
-                q: "What tool did Mia use to fix the satellite?",
-                ans: "A wrench",
-                opts: ["A hammer", "A wrench", "Tape"]
-            },
-            { 
-                text: "The history class learned about ancient Roman coinage. The teacher explained that the coins were often made from silver and depicted the faces of emperors. The class was challenged to draw their own coin, choosing a figure from modern history to place on its surface.",
-                q: "What material were ancient Roman coins often made from?",
-                ans: "Silver",
-                opts: ["Gold", "Bronze", "Silver"]
-            },
-            { 
-                text: "The photographer waited for the exact moment the sun dipped below the horizon, creating a stunning burst of orange and purple. He knew that this 'golden hour' light was essential for capturing the perfect, dramatic silhouette of the palm trees on the beach.",
-                q: "What time of day did the photographer wait for?",
-                ans: "The 'golden hour'",
-                opts: ["Noon", "Midnight", "The 'golden hour'"]
-            },
-            { 
-                text: "To build the model volcano, the children needed three things: plaster, a plastic bottle, and red paint. They carefully mixed the plaster with water and spread it over the bottle's frame. The paint would be added last to simulate the fiery appearance of lava.",
-                q: "Which item was NOT needed to build the volcano's structure?",
-                ans: "Red paint",
-                opts: ["Plaster", "Plastic bottle", "Red paint"]
-            },
-            { 
-                text: "The detective studied the mysterious note left at the scene. It was written on expensive parchment in blue ink and smelled faintly of lavender. He immediately suspected the famous recluse, Baron Von Doom, known for his eccentric writing habits and love of expensive stationery.",
-                q: "What color was the ink used to write the note?",
-                ans: "Blue",
-                opts: ["Black", "Red", "Blue"]
-            },
-            // New 20 (More Advanced Passages)
-            { 
-                text: "Marcus, the experienced dog walker, navigated the busy city park with five dogs. He relied less on leashes and more on a specialized **harness** system and voice commands to keep the pack orderly. His greatest challenge wasn't the dogs, but remembering which treats each dog preferred.",
-                q: "What is the walker's primary tool for managing multiple dogs?",
-                ans: "A specialized harness",
-                opts: ["Extra long leashes", "A specialized harness", "A loud whistle"]
-            },
-            { 
-                text: "The pastry chef focused intently on the tiramisu. Every layer of ladyfingers and mascarpone was perfect. Before sending it out, she performed one last, delicate step: dusting the top of the dessert with a fine layer of **powdered sugar** to enhance the presentation.",
-                q: "What is the final step before the dessert is served?",
-                ans: "Dusting with powdered sugar",
-                opts: ["Adding a cherry", "Dusting with powdered sugar", "Warming it slightly"]
-            },
-            { 
-                text: "In the late 17th century, inventor Thomas sought a solution to the slowness of messengers. He worked tirelessly, experimenting with mirrors and lights, eventually devising a method to relay messages quickly using coded flashes across vast distances. His true **goal** was simply to overcome geographical separation.",
-                q: "What was the inventor's ultimate goal with his invention?",
-                ans: "Sending messages over long distances",
-                opts: ["Making money", "Sending messages over long distances", "Creating a new light source"]
-            },
-            { 
-                text: "Dr. Chen examined the massive rock face. The deep **striations**, or grooves, running vertically down the granite were puzzling. After consulting historical geological records, she concluded the only phenomenon powerful enough to score the rock like that must have been **ancient glacial movement** thousands of years prior.",
-                q: "What phenomenon caused the deep grooves in the rock face?",
-                ans: "Ancient glacial movement",
-                opts: ["Volcanic lava flow", "Ancient glacial movement", "Heavy wind erosion"]
-            },
-            { 
-                text: "Liam and his friends arrived at the campsite late. They unrolled their tent, only to realize the crucial **tent poles** were missing, left leaning against the garage door. Faced with a choice, they opted to use their sleeping bags and sleep under the open sky, enjoying the unexpected stars.",
-                q: "Why did the group choose to sleep outside the tent?",
-                ans: "They forgot the tent poles",
-                opts: ["They forgot their sleeping bags", "It was too cold inside", "They forgot the tent poles"]
-            },
-            { 
-                text: "A hush fell over the packed theater as the musicians picked up their instruments. Before the maestro raised his baton, the **oboe** played a single, clear A-note. This established the correct pitch, ensuring every string and wind instrument was in perfect harmony.",
-                q: "Which instrument sets the initial pitch for the orchestra?",
-                ans: "The oboe",
-                opts: ["The first violin", "The cello", "The oboe"]
-            },
-            { 
-                text: "Deep in the forest, survivalist Anya moved silently. She heard the distinct, sharp **snap of a twig** about fifty yards ahead. This small sound, impossible to miss in the profound silence, instantly alerted her that a large, cautious deer was approaching the stream.",
-                q: "What sound alerted the character to the approaching deer?",
-                ans: "The snapping of a twig",
-                opts: ["A gentle rustle of leaves", "The snapping of a twig", "A distant bird call"]
-            },
-            { 
-                text: "The town council met to discuss the 80-year-old steel bridge. While beautiful, routine inspections revealed that its structural integrity was severely **compromised** due to rust and wear. The engineers unanimously agreed that a complete replacement, not just a repair, was mandatory for public safety.",
-                q: "What is the main reason for replacing the old bridge?",
-                ans: "The structural integrity is compromised",
-                opts: ["It is too ugly", "It is too expensive to maintain", "The structural integrity is compromised"]
-            },
-            { 
-                text: "Five-year-old Maya insisted she was ready to ride without help. Her dad carefully removed the **training wheels** and gave her a gentle push. After a few wobbles and a minor tumble, Maya was soaring across the driveway, experiencing true balance for the first time.",
-                q: "What part of the bike did the parent remove first?",
-                ans: "The training wheels",
-                opts: ["The front tire", "The training wheels", "The seat"]
-            },
-            { 
-                text: "Environmental scientist Dr. Lee needed to monitor thermal pollution far from the research vessel. Since deploying buoys was impractical, she relied on high-resolution **satellite feed** data which provided accurate, real-time measurements of the water temperature across hundreds of miles of ocean.",
-                q: "What is the scientist using to collect data far from the coast?",
-                ans: "High-resolution satellite feed",
-                opts: ["A fleet of submarines", "An underwater drone", "High-resolution satellite feed"]
-            },
-            { 
-                text: "The artist prepared to paint a large mural on the side of a building. He chose **acrylic** paints specifically because they dry much **faster** than oil-based paints, which was crucial given the unpredictable nature of outdoor weather and the tight deadline for the commission.",
-                q: "Why did the artist choose acrylic over oil paint?",
-                ans: "Faster drying time",
-                opts: ["Brighter colors", "Slower drying time", "Faster drying time"]
-            },
-            { 
-                text: "Student Alex stared at the math problem: calculate the average speed of the rocket. The only missing piece of information was the **time elapsed** during the journey. Without that crucial variable, he knew the complex distance formula was useless.",
-                q: "What was the hidden variable required for the solution?",
-                ans: "The time elapsed",
-                opts: ["The rocket's mass", "The force of gravity", "The time elapsed"]
-            },
-            { 
-                text: "At the observatory, the astronomy club gathered to view Jupiter. One excited newcomer pointed out a bright object, mistaking it for a star. The club president corrected him gently, explaining it was actually a distant **planet**, reflecting the sun's light.",
-                q: "What celestial body did they initially mistake for a star?",
-                ans: "A distant planet",
-                opts: ["A meteor", "A distant planet", "A satellite"]
-            },
-            { 
-                text: "Farmer Giles was frustrated by the small aphids attacking his tomato plants. Rather than using harsh chemicals, he implemented a natural, biological deterrent: he deployed thousands of **ladybugs**, which feed on aphids without damaging the crops.",
-                q: "What natural deterrent did the farmer deploy to protect the crops?",
-                ans: "Ladybugs",
-                opts: ["Bird netting", "Snails", "Ladybugs"]
-            },
-            { 
-                text: "Journalist Clara was on a tight deadline for a breaking story. She had seconds to submit her article to the editor. Knowing this, she checked every quote and date multiple times, prioritizing **factual accuracy** and source verification over stylistic polish or clever phrasing.",
-                q: "What did the journalist prioritize over stylistic polish?",
-                ans: "Factual accuracy",
-                opts: ["A catchy title", "Factual accuracy", "Long paragraphs"]
-            },
-            { 
-                text: "Lost in the desert, the exhausted traveler found a discarded piece of mirror. He knew that by tilting it correctly, he could use the sun's reflection to signal an **overhead aircraft** or a distant vehicle. This basic knowledge could be the difference between rescue and peril.",
-                q: "What was the traveler attempting to signal with the mirror?",
-                ans: "An overhead aircraft",
-                opts: ["A ground fire", "An overhead aircraft", "A desert ship"]
-            },
-            { 
-                text: "During the science lecture, the teacher asked the class which type of energy is stored, ready for use. She used the example of a highly **compressed spring** or a rock sitting atop a hill to illustrate **potential energy**—energy waiting to be released.",
-                q: "Which type of energy is stored in a compressed spring?",
-                ans: "Potential energy",
-                opts: ["Kinetic energy", "Thermal energy", "Potential energy"]
-            },
-            { 
-                text: "Mr. Henderson needed to travel quickly from London to Edinburgh. He purchased the **non-stop express ticket**, ensuring his journey would be completed in the shortest possible time without the delays caused by local station stops.",
-                q: "What ticket type did the traveler purchase to avoid delays?",
-                ans: "A non-stop express ticket",
-                opts: ["A last-minute ticket", "A non-stop express ticket", "A first-class ticket"]
-            },
-            { 
-                text: "Sarah was halfway through mixing the cookie dough when she tasted it and realized something was wrong: the cookies wouldn't rise. She mentally reviewed the recipe and immediately identified the missing ingredient: **baking soda**, the chemical leavener.",
-                q: "What ingredient did the character realize they forgot?",
-                ans: "Baking soda",
-                opts: ["Sugar", "Vanilla extract", "Baking soda"]
-            },
-            { 
-                text: "The museum curator oversaw the delicate preparation of the antique textile exhibit. To prevent the ancient fabrics from deteriorating, she mandated that the room be kept at extremely **low humidity** and that all overhead lights be dimmed to a faint level.",
-                q: "What specific environment is required for the antique textiles?",
-                ans: "Low humidity and dim light",
-                opts: ["High temperature and bright light", "Low humidity and dim light", "Normal office conditions"]
-            }
+            // 40 SIMPLE DECODABLE PASSAGES (2-3 sentences)
+            // CVC/Simple Short Vowels Focus
+            { text: "Pam has a cat. The cat is fat. It sits on a mat.", q: "Who has the cat?", ans: "Pam", opts: ["Tim", "Pam", "Dad"] },
+            { text: "The sun is hot. I see a big jet. The jet is red.", q: "What color is the jet?", ans: "Red", opts: ["Blue", "Red", "Green"] },
+            { text: "Tim ran to the hill. He fell in the mud. He had to wash off.", q: "Where did Tim fall?", ans: "In the mud", opts: ["On the grass", "In the mud", "On a rock"] },
+            { text: "A fox dug a den. The den was near a box. The fox is safe.", q: "Where is the den?", ans: "Near a box", opts: ["Near a tree", "Near a box", "Under the sun"] },
+            { text: "My dress is new. It is green. I will wear it to school.", q: "What will I wear to school?", ans: "My dress", opts: ["My coat", "My dress", "My hat"] },
+            { text: "I need a nail. I will use a hammer. I want to fix the chair.", q: "What tool is used to fix the chair?", ans: "A hammer", opts: ["A pin", "A spoon", "A hammer"] },
+            { text: "The bird built a nest. It had four small eggs. The nest is safe up high.", q: "How many eggs were in the nest?", ans: "Four", opts: ["Three", "Four", "Five"] },
+            { text: "Max went to the beach. He saw a small shell. He put the shell in a bag.", q: "What did Max find?", ans: "A small shell", opts: ["A big rock", "A small shell", "A toy boat"] },
+            { text: "The fox hid in a bush. The bush was big and green. The fox was very still.", q: "Where did the fox hide?", ans: "In a bush", opts: ["In a car", "In a bush", "In a house"] },
+            { text: "Mom needs flour for bread. She will use the big sack. The bread will be good.", q: "What does Mom need flour for?", ans: "Bread", opts: ["Juice", "Bread", "Soup"] },
+            { text: "The girl has a doll. The doll has long hair. She calls the doll Jill.", q: "What is the doll's name?", ans: "Jill", opts: ["Kim", "Jill", "Jen"] },
+            { text: "We like to walk the dog. The dog is brown. He plays in the park.", q: "What color is the dog?", ans: "Brown", opts: ["Black", "Brown", "Yellow"] },
+            { text: "The glass is full. It has milk inside. I will sip it now.", q: "What is inside the glass?", ans: "Milk", opts: ["Water", "Milk", "Ink"] },
+            { text: "We went to the shop. I bought a red toy car. It goes fast down the ramp.", q: "What did I buy?", ans: "A red toy car", opts: ["A blue toy car", "A red toy car", "A ball"] },
+            { text: "My mom has a new phone. The phone rings loud. She talks to her friend.", q: "What does the new phone do?", ans: "Rings loud", opts: ["Shines bright", "Rings loud", "Says a word"] },
+            { text: "The tree is so tall. A small bird sat on it. It flew away quick.", q: "What sat on the tall tree?", ans: "A small bird", opts: ["A big monkey", "A small bird", "A big flag"] },
+            { text: "The fish swim in the pond. They zip and zoom past the rocks. They are happy.", q: "Where do the fish swim?", ans: "In the pond", opts: ["In the road", "In the pond", "In a cup"] },
+            { text: "Dad gave me a box. The box has three cups. We will use them now.", q: "How many cups are in the box?", ans: "Three", opts: ["Two", "Three", "Four"] },
+            { text: "The little pup digs in the yard. He gets very wet and full of mud. He is a mess.", q: "What does the little pup do?", ans: "Digs in the yard", opts: ["Sits on the mat", "Digs in the yard", "Runs on the house"] },
+            { text: "I will make a list of six jobs. I must get them done fast. I need to focus.", q: "How many jobs are on the list?", ans: "Six", opts: ["Five", "Six", "Ten"] },
+
+            // Long Vowels/R-Controlled/Digraphs Focus
+            { text: "Joe saw a goat. The goat had a boat. It rode on the wave.", q: "What did the goat have?", ans: "A boat", opts: ["A sled", "A boat", "A fish"] },
+            { text: "Dad made a cake. The cake had cream. It was a good treat.", q: "What kind of food did Dad make?", ans: "A cake", opts: ["A pie", "A cake", "A bun"] },
+            { text: "Look at the bright light. It is a star. It shines all night.", q: "What shines all night?", ans: "A star", opts: ["The sun", "A star", "A lamp"] },
+            { text: "My new toy is a coin. The coin is gold. I will play with my toy.", q: "What color is the coin?", ans: "Gold", opts: ["Red", "Blue", "Gold"] },
+            { text: "The dog saw a fawn. The fawn was on the lawn. They both ran away.", q: "Where was the fawn?", ans: "On the lawn", opts: ["On the hill", "On the lawn", "On the road"] },
+            { text: "I hear a chime sound. It is time for lunch. We will eat pizza.", q: "What time is it?", ans: "Time for lunch", opts: ["Time for bed", "Time for lunch", "Time for a run"] },
+            { text: "The blue whale is big. It swims in the deep sea. It eats small fish.", q: "What does the whale eat?", ans: "Small fish", opts: ["Big rocks", "Small fish", "Plants"] },
+            { text: "I like to eat pie. My favorite is cherry. I will ask for a slice.", q: "What is the favorite kind of pie?", ans: "Cherry", opts: ["Apple", "Cherry", "Lemon"] },
+            { text: "The rain pours down. We need to go inside. Put on your yellow coat. This keeps me warm and dry.", q: "What keeps the person warm and dry?", ans: "The yellow coat", opts: ["The hat", "The yellow coat", "The rain"] },
+            { text: "I will go on a hike. I must pack a map. I will see a tall tree.", q: "What must I pack?", ans: "A map", opts: ["A coat", "A map", "A ball"] },
+            { text: "Jen saw a cow. The cow was loud. It was in a green field.", q: "Where was the cow?", ans: "In a green field", opts: ["In the barn", "In a green field", "In the shed"] },
+            { text: "The big ship sailed. It went to a new land. The men waved.", q: "Where did the ship go?", ans: "To a new land", opts: ["To the dock", "To a new land", "To the rock"] },
+            { text: "I like to draw stars. I use a blue pen. My stars are bright.", q: "What tool is used to draw stars?", ans: "A blue pen", opts: ["A pencil", "A blue pen", "A crayon"] },
+            { text: "Sue found a flute. The flute was made of wood. She likes to play it.", q: "What is the flute made of?", ans: "Wood", opts: ["Plastic", "Wood", "Metal"] },
+            { text: "The sun is hot now. I need some cold juice. It is time for a break.", q: "What is the sun doing?", ans: "It is hot", opts: ["It is cold", "It is raining", "It is hot"] },
+            { text: "We saw a long train. The train went fast. It made a loud sound.", q: "How did the train move?", ans: "Fast", opts: ["Slow", "Fast", "Up"] },
+            { text: "Ken has a black vest. The vest is warm. He wears it in the snow.", q: "What is black and warm?", ans: "A vest", opts: ["A coat", "A vest", "A scarf"] },
+            { text: "I see a big white cloud. It looks like a sheep. The sky is very blue.", q: "What does the cloud look like?", ans: "A sheep", opts: ["A dog", "A sheep", "A fox"] },
+            { text: "The chair is green. It is hard to sit on. I will get a soft pad.", q: "What will I get for the chair?", ans: "A soft pad", opts: ["A cup", "A soft pad", "A book"] },
+            { text: "The sharp thorn can cut. Be careful on the path. Do not touch the rose bush.", q: "What must you be careful of?", ans: "The sharp thorn", opts: ["The leaf", "The sharp thorn", "The mud"] }
         ]
     };
 
