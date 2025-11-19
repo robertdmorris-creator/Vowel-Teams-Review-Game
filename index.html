@@ -6,13 +6,14 @@
     <title>Vowel Victory: Decodable Edition</title>
     <style>
         :root {
-            --team1-color: #4834d4;
-            --team2-color: #eb4d4b;
-            --bg-color: #f7f1e3;
+            /* Brightened Colors */
+            --team1-color: #5352ed; 
+            --team2-color: #ff6348;
+            --bg-color: #fcebeb; /* Lighter, more vibrant background */
             --card-bg: #ffffff;
             --text-color: #2d3436;
-            --btn-blue: #00a8ff;
-            --btn-purple: #9c88ff;
+            --btn-blue: #0984e3;
+            --btn-purple: #a29bfe;
         }
 
         * {
@@ -277,7 +278,19 @@
             line-height: 1;
         }
 
-        /* POP-UP MODAL Overhaul */
+        /* POP-UP MODAL Overhaul - Positioned in the middle */
+        #modal-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.85);
+            z-index: 100;
+            display: none;
+            /* CENTER ALIGNMENT */
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(8px);
+        }
+        
         .modal-content {
             background: white;
             padding: 80px 60px;
@@ -319,17 +332,17 @@
         <h1 style="font-size: 6rem; margin-bottom:20px; text-shadow: 3px 3px 0 rgba(0,0,0,0.1);">🎓 Vowel Victory</h1>
         <h2 style="color: #636e72; font-size: 3rem;">Decodable Edition</h2>
         <div class="setup-grid">
-            <div class="team-config" style="border-top: 12px solid #4834d4;">
+            <div class="team-config" style="border-top: 12px solid #5352ed;">
                 <h3>Team 1 Name</h3>
                 <input type="text" id="t1-name" value="Phonics Pros">
                 <br>
-                <input type="color" id="t1-color" value="#4834d4">
+                <input type="color" id="t1-color" value="#5352ed">
             </div>
-            <div class="team-config" style="border-top: 12px solid #eb4d4b;">
+            <div class="team-config" style="border-top: 12px solid #ff6348;">
                 <h3>Team 2 Name</h3>
                 <input type="text" id="t2-name" value="Vowel Voyagers">
                 <br>
-                <input type="color" id="t2-color" value="#eb4d4b">
+                <input type="color" id="t2-color" value="#ff6348">
             </div>
         </div>
         <button class="btn btn-start" onclick="initGame()">START GAME ▶</button>
@@ -421,10 +434,10 @@
 </div>
 
 <script>
-    // EXPANDED AND SIMPLIFIED DATABASE (40 Items per Category for Sense and Passage)
+    // EXPANDED DATABASE (40 Items per Category, total 120 unique questions)
     const data = {
         fill: [
-            // Keeping original 20 phonics questions for core practice
+            // 40 Missing Sounds Questions (Decodable/Phonics Review)
             { word: "R_ _N", ans: "AI", icon: "🌧️", opts: ["AI", "AY", "EE"] }, 
             { word: "D_ _", ans: "AY", icon: "☀️", opts: ["AI", "AY", "OA"] }, 
             { word: "TR_ _", ans: "EE", icon: "🌳", opts: ["EE", "EA", "IE"] }, 
@@ -444,7 +457,28 @@
             { word: "DOL_ _IN", ans: "PH", icon: "🐬", opts: ["PH", "WH", "CH"] }, 
             { word: "_ _ALE", ans: "WH", icon: "🐋", opts: ["WH", "CH", "SH"] }, 
             { word: "_ _AIR", ans: "CH", icon: "🪑", opts: ["CH", "SH", "TH"] }, 
-            { word: "_ _ARK", ans: "SH", icon: "🦈", opts: ["SH", "CH", "TH"] }
+            { word: "_ _ARK", ans: "SH", icon: "🦈", opts: ["SH", "CH", "TH"] },
+            // New Decodable Fill-ins
+            { word: "F_ _N", ans: "IGH", icon: "💡", opts: ["IGH", "IE", "AY"] }, // Fright
+            { word: "SH_ _T", ans: "IR", icon: "👕", opts: ["IR", "ER", "UR"] }, // Shirt
+            { word: "B_ _N", ans: "OR", icon: "🌽", opts: ["OR", "AR", "ER"] }, // Born
+            { word: "C_ _", ans: "AR", icon: "🚗", opts: ["AR", "OR", "IR"] }, // Car
+            { word: "H_ _S", ans: "IGH", icon: "⬆️", opts: ["IGH", "IE", "AY"] }, // High
+            { word: "S_ _P", ans: "EE", icon: "🐑", opts: ["EE", "IE", "EA"] }, // Sheep
+            { word: "W_ _T", ans: "EA", icon: "🌾", opts: ["EA", "EE", "AI"] }, // Wheat
+            { word: "DR_ _", ans: "AW", icon: "✍️", opts: ["AW", "AU", "OA"] }, // Draw
+            { word: "C_ _T", ans: "OU", icon: "🛋️", opts: ["OU", "OW", "OO"] }, // Couch
+            { word: "CL_ _N", ans: "OW", icon: "🤡", opts: ["OU", "OW", "OI"] }, // Clown
+            { word: "J_ _", ans: "OY", icon: "😀", opts: ["OY", "OI", "AI"] }, // Joy
+            { word: "T_ _L", ans: "AW", icon: "🌊", opts: ["AW", "AU", "OW"] }, // Tawl (Trawl)
+            { word: "G_ _SS", ans: "LA", icon: "👓", opts: ["LA", "LE", "LO"] }, // Glass (Fixed spelling to match CVC logic)
+            { word: "STR_ _T", ans: "AI", icon: "🛣️", opts: ["AI", "AY", "EE"] }, // Straight
+            { word: "TH_ _MB", ans: "UM", icon: "👍", opts: ["UM", "OM", "IM"] }, // Thumb (Silent B)
+            { word: "WR_ _P", ans: "A", icon: "🎁", opts: ["A", "I", "E"] }, // Wrap (Silent W)
+            { word: "PL_ _T", ans: "ANE", icon: "🪐", opts: ["ANE", "INE", "ON"] }, // Planet (Adjusted word and options)
+            { word: "BL_ _CK", ans: "A", icon: "⚫", opts: ["A", "I", "E"] }, // Black
+            { word: "CH_ _K", ans: "AL", icon: " Chalkboard", opts: ["AL", "EL", "IL"] }, // Chalk
+            { word: "PH_ _N", ans: "O", icon: "📞", opts: ["O", "A", "E"] } // Phone
         ],
         sense: [
             // 40 SIMPLE DECODABLE SENTENCES
@@ -469,72 +503,94 @@
             { text: "The teacher gave us a fun game.", valid: true },
             { text: "I ate a slice of sweet bread.", valid: true },
             
-            { text: "A fish can fly up in the sky.", valid: false }, // Illogical (fish/fly)
-            { text: "My mom will sip the pot with a fork.", valid: false }, // Illogical (sip pot/fork)
-            { text: "The map is on the top of the cup.", valid: false }, // Illogical (map/cup)
-            { text: "The pig has six legs and ten feet.", valid: false }, // Factual error (legs/feet)
-            { text: "I hear the bell yell a loud song.", valid: false }, // Illogical (bell/yell)
-            { text: "He put a piece of pie in his eye.", valid: false }, // Illogical/Silly (pie/eye)
-            { text: "We can joy in the sun with a boat.", valid: false }, // Illogical (joy is not a verb here)
-            { text: "The cow will say meow to the moon.", valid: false }, // Factual error (cow/meow)
-            { text: "The green bean is blue, not green.", valid: false }, // Illogical (green/blue contradiction)
-            { text: "My nose has three tips and two mouths.", valid: false }, // Factual error (nose/mouths)
-            { text: "The mouse is big like a house.", valid: false }, // Factual error (mouse/house)
-            { text: "My hair is red and blue and green.", valid: false }, // Improbable (hair colors)
-            { text: "My bike can fly to the top of the tree.", valid: false }, // Illogical (bike/fly)
-            { text: "I threw a shoe at the moon.", valid: false }, // Illogical (shoe/moon)
-            { text: "The chef baked the big ship.", valid: false }, // Illogical (chef/baked ship)
-            { text: "The red wagon ran after the boy.", valid: false }, // Illogical (wagon runs)
-            { text: "We see stars in the day light.", valid: false }, // Factual error (stars/day)
-            { text: "The cat chased the small car.", valid: false }, // Illogical (cat chases car)
-            { text: "She eats soup with a big shoe.", valid: false }, // Illogical (soup/shoe)
-            { text: "The fire is made of cold ice.", valid: false } // Factual error (fire/ice)
+            { text: "A fish can fly up in the sky.", valid: false }, 
+            { text: "My mom will sip the pot with a fork.", valid: false }, 
+            { text: "The map is on the top of the cup.", valid: false }, 
+            { text: "The pig has six legs and ten feet.", valid: false }, 
+            { text: "I hear the bell yell a loud song.", valid: false }, 
+            { text: "He put a piece of pie in his eye.", valid: false }, 
+            { text: "We can joy in the sun with a boat.", valid: false }, 
+            { text: "The cow will say meow to the moon.", valid: false }, 
+            { text: "The green bean is blue, not green.", valid: false }, 
+            { text: "My nose has three tips and two mouths.", valid: false }, 
+            { text: "The mouse is big like a house.", valid: false }, 
+            { text: "My hair is red and blue and green.", valid: false }, 
+            { text: "My bike can fly to the top of the tree.", valid: false }, 
+            { text: "I threw a shoe at the moon.", valid: false }, 
+            { text: "The chef baked the big ship.", valid: false }, 
+            { text: "The red wagon ran after the boy.", valid: false }, 
+            { text: "We see stars in the day light.", valid: false }, 
+            { text: "The cat chased the small car.", valid: false }, 
+            { text: "She eats soup with a big shoe.", valid: false }, 
+            { text: "The fire is made of cold ice.", valid: false },
+            
+            // 20 NEW SIMPLE DECODABLE SENTENCES
+            { text: "The cup is hot, so I will drink it fast.", valid: true },
+            { text: "The girl had a long dream about a small pig.", valid: true },
+            { text: "My dad put the red jam on the toast.", valid: true },
+            { text: "The sun is round and hangs on a hook.", valid: false }, 
+            { text: "I will read the big blue book today.", valid: true },
+            { text: "The tiny snail sang a loud, long song.", valid: false }, 
+            { text: "The fox can swim in the tub of milk.", valid: false }, 
+            { text: "The small coin can buy a giant house.", valid: false }, 
+            { text: "The bee is yellow and sits on a flower.", valid: true },
+            { text: "My shoe is made of clean, white wood.", valid: false }, 
+            { text: "We can see the moon in the deep blue sky.", valid: true },
+            { text: "I eat the soap from the dish with a grin.", valid: false }, 
+            { text: "The train moves on the track very slow.", valid: true },
+            { text: "My friend brought a cake made of mud.", valid: false }, 
+            { text: "The wind blew the dry leaves from the tree.", valid: true },
+            { text: "I put my coat in the pot to cook it.", valid: false }, 
+            { text: "The sheep sleeps when the sun is up high.", valid: true },
+            { text: "The big green frog jumped on a boat.", valid: true },
+            { text: "The wet dog wore a dry red hat.", valid: true },
+            { text: "The rain fell up to the sky today.", valid: false }
         ],
         passage: [
-            // 40 SIMPLE DECODABLE PASSAGES (2-3 sentences)
+            // 40 SIMPLE DECODABLE PASSAGES (3-4 sentences)
             // CVC/Simple Short Vowels Focus
-            { text: "Pam has a cat. The cat is fat. It sits on a mat.", q: "Who has the cat?", ans: "Pam", opts: ["Tim", "Pam", "Dad"] },
-            { text: "The sun is hot. I see a big jet. The jet is red.", q: "What color is the jet?", ans: "Red", opts: ["Blue", "Red", "Green"] },
-            { text: "Tim ran to the hill. He fell in the mud. He had to wash off.", q: "Where did Tim fall?", ans: "In the mud", opts: ["On the grass", "In the mud", "On a rock"] },
-            { text: "A fox dug a den. The den was near a box. The fox is safe.", q: "Where is the den?", ans: "Near a box", opts: ["Near a tree", "Near a box", "Under the sun"] },
-            { text: "My dress is new. It is green. I will wear it to school.", q: "What will I wear to school?", ans: "My dress", opts: ["My coat", "My dress", "My hat"] },
-            { text: "I need a nail. I will use a hammer. I want to fix the chair.", q: "What tool is used to fix the chair?", ans: "A hammer", opts: ["A pin", "A spoon", "A hammer"] },
-            { text: "The bird built a nest. It had four small eggs. The nest is safe up high.", q: "How many eggs were in the nest?", ans: "Four", opts: ["Three", "Four", "Five"] },
-            { text: "Max went to the beach. He saw a small shell. He put the shell in a bag.", q: "What did Max find?", ans: "A small shell", opts: ["A big rock", "A small shell", "A toy boat"] },
-            { text: "The fox hid in a bush. The bush was big and green. The fox was very still.", q: "Where did the fox hide?", ans: "In a bush", opts: ["In a car", "In a bush", "In a house"] },
-            { text: "Mom needs flour for bread. She will use the big sack. The bread will be good.", q: "What does Mom need flour for?", ans: "Bread", opts: ["Juice", "Bread", "Soup"] },
-            { text: "The girl has a doll. The doll has long hair. She calls the doll Jill.", q: "What is the doll's name?", ans: "Jill", opts: ["Kim", "Jill", "Jen"] },
-            { text: "We like to walk the dog. The dog is brown. He plays in the park.", q: "What color is the dog?", ans: "Brown", opts: ["Black", "Brown", "Yellow"] },
-            { text: "The glass is full. It has milk inside. I will sip it now.", q: "What is inside the glass?", ans: "Milk", opts: ["Water", "Milk", "Ink"] },
-            { text: "We went to the shop. I bought a red toy car. It goes fast down the ramp.", q: "What did I buy?", ans: "A red toy car", opts: ["A blue toy car", "A red toy car", "A ball"] },
-            { text: "My mom has a new phone. The phone rings loud. She talks to her friend.", q: "What does the new phone do?", ans: "Rings loud", opts: ["Shines bright", "Rings loud", "Says a word"] },
-            { text: "The tree is so tall. A small bird sat on it. It flew away quick.", q: "What sat on the tall tree?", ans: "A small bird", opts: ["A big monkey", "A small bird", "A big flag"] },
-            { text: "The fish swim in the pond. They zip and zoom past the rocks. They are happy.", q: "Where do the fish swim?", ans: "In the pond", opts: ["In the road", "In the pond", "In a cup"] },
-            { text: "Dad gave me a box. The box has three cups. We will use them now.", q: "How many cups are in the box?", ans: "Three", opts: ["Two", "Three", "Four"] },
-            { text: "The little pup digs in the yard. He gets very wet and full of mud. He is a mess.", q: "What does the little pup do?", ans: "Digs in the yard", opts: ["Sits on the mat", "Digs in the yard", "Runs on the house"] },
-            { text: "I will make a list of six jobs. I must get them done fast. I need to focus.", q: "How many jobs are on the list?", ans: "Six", opts: ["Five", "Six", "Ten"] },
+            { text: "Pam has a cat. The cat is fat. It sits on a mat. Pam likes to pet the cat.", q: "Who likes to pet the cat?", ans: "Pam", opts: ["Tim", "Pam", "Dad"] },
+            { text: "The sun is hot. I see a big jet. The jet is red and flies high. The jet is fast.", q: "What color is the jet?", ans: "Red", opts: ["Blue", "Red", "Green"] },
+            { text: "Tim ran to the hill. He fell in the mud. He had to wash off in the sink. Tim is clean now.", q: "Where did Tim fall?", ans: "In the mud", opts: ["On the grass", "In the mud", "On a rock"] },
+            { text: "A fox dug a den. The den was near a box. The fox is safe inside the hole. It will sleep now.", q: "Where is the den?", ans: "Near a box", opts: ["Near a tree", "Near a box", "Under the sun"] },
+            { text: "My dress is new. It is green. I will wear it to school for a game. I like the green dress.", q: "What will I wear to school?", ans: "My dress", opts: ["My coat", "My dress", "My hat"] },
+            { text: "I need a nail. I will use a hammer. I want to fix the chair. The nail went in the wood.", q: "What tool is used to fix the chair?", ans: "A hammer", opts: ["A pin", "A spoon", "A hammer"] },
+            { text: "The bird built a nest. It had four small eggs. The nest is safe up high. The mom bird sits on the nest.", q: "How many eggs were in the nest?", ans: "Four", opts: ["Three", "Four", "Five"] },
+            { text: "Max went to the beach. He saw a small shell. He put the shell in a bag. He will take it home now.", q: "What did Max find?", ans: "A small shell", opts: ["A big rock", "A small shell", "A toy boat"] },
+            { text: "The fox hid in a bush. The bush was big and green. The fox was very still. It hopes no one sees it.", q: "Where did the fox hide?", ans: "In a bush", opts: ["In a car", "In a bush", "In a house"] },
+            { text: "Mom needs flour for bread. She will use the big sack. The bread will be good. We will eat the fresh bread.", q: "What does Mom need flour for?", ans: "Bread", opts: ["Juice", "Bread", "Soup"] },
+            { text: "The girl has a doll. The doll has long hair. She calls the doll Jill. Jill wears a pink hat.", q: "What is the doll's name?", ans: "Jill", opts: ["Kim", "Jill", "Jen"] },
+            { text: "We like to walk the dog. The dog is brown. He plays in the park. He runs fast for the ball.", q: "What color is the dog?", ans: "Brown", opts: ["Black", "Brown", "Yellow"] },
+            { text: "The glass is full. It has milk inside. I will sip it now. I like cold milk a lot.", q: "What is inside the glass?", ans: "Milk", opts: ["Water", "Milk", "Ink"] },
+            { text: "We went to the shop. I bought a red toy car. It goes fast down the ramp. It is my favorite toy.", q: "What did I buy?", ans: "A red toy car", opts: ["A blue toy car", "A red toy car", "A ball"] },
+            { text: "My mom has a new phone. The phone rings loud. She talks to her friend. She laughs when she talks.", q: "What does the new phone do?", ans: "Rings loud", opts: ["Shines bright", "Rings loud", "Says a word"] },
+            { text: "The tree is so tall. A small bird sat on it. It flew away quick. The bird went over the fence.", q: "What sat on the tall tree?", ans: "A small bird", opts: ["A big monkey", "A small bird", "A big flag"] },
+            { text: "The fish swim in the pond. They zip and zoom past the rocks. They are happy and splash a lot. I see five fish.", q: "Where do the fish swim?", ans: "In the pond", opts: ["In the road", "In the pond", "In a cup"] },
+            { text: "Dad gave me a box. The box has three cups. We will use them now for juice. The cups are small.", q: "How many cups are in the box?", ans: "Three", opts: ["Two", "Three", "Four"] },
+            { text: "The little pup digs in the yard. He gets very wet and full of mud. He is a mess but he is happy. He likes to dig.", q: "What does the little pup do?", ans: "Digs in the yard", opts: ["Sits on the mat", "Digs in the yard", "Runs on the house"] },
+            { text: "I will make a list of six jobs. I must get them done fast. I need to focus. I want to be done by noon.", q: "How many jobs are on the list?", ans: "Six", opts: ["Five", "Six", "Ten"] },
 
-            // Long Vowels/R-Controlled/Digraphs Focus
-            { text: "Joe saw a goat. The goat had a boat. It rode on the wave.", q: "What did the goat have?", ans: "A boat", opts: ["A sled", "A boat", "A fish"] },
-            { text: "Dad made a cake. The cake had cream. It was a good treat.", q: "What kind of food did Dad make?", ans: "A cake", opts: ["A pie", "A cake", "A bun"] },
-            { text: "Look at the bright light. It is a star. It shines all night.", q: "What shines all night?", ans: "A star", opts: ["The sun", "A star", "A lamp"] },
-            { text: "My new toy is a coin. The coin is gold. I will play with my toy.", q: "What color is the coin?", ans: "Gold", opts: ["Red", "Blue", "Gold"] },
-            { text: "The dog saw a fawn. The fawn was on the lawn. They both ran away.", q: "Where was the fawn?", ans: "On the lawn", opts: ["On the hill", "On the lawn", "On the road"] },
-            { text: "I hear a chime sound. It is time for lunch. We will eat pizza.", q: "What time is it?", ans: "Time for lunch", opts: ["Time for bed", "Time for lunch", "Time for a run"] },
-            { text: "The blue whale is big. It swims in the deep sea. It eats small fish.", q: "What does the whale eat?", ans: "Small fish", opts: ["Big rocks", "Small fish", "Plants"] },
-            { text: "I like to eat pie. My favorite is cherry. I will ask for a slice.", q: "What is the favorite kind of pie?", ans: "Cherry", opts: ["Apple", "Cherry", "Lemon"] },
-            { text: "The rain pours down. We need to go inside. Put on your yellow coat. This keeps me warm and dry.", q: "What keeps the person warm and dry?", ans: "The yellow coat", opts: ["The hat", "The yellow coat", "The rain"] },
-            { text: "I will go on a hike. I must pack a map. I will see a tall tree.", q: "What must I pack?", ans: "A map", opts: ["A coat", "A map", "A ball"] },
-            { text: "Jen saw a cow. The cow was loud. It was in a green field.", q: "Where was the cow?", ans: "In a green field", opts: ["In the barn", "In a green field", "In the shed"] },
-            { text: "The big ship sailed. It went to a new land. The men waved.", q: "Where did the ship go?", ans: "To a new land", opts: ["To the dock", "To a new land", "To the rock"] },
-            { text: "I like to draw stars. I use a blue pen. My stars are bright.", q: "What tool is used to draw stars?", ans: "A blue pen", opts: ["A pencil", "A blue pen", "A crayon"] },
-            { text: "Sue found a flute. The flute was made of wood. She likes to play it.", q: "What is the flute made of?", ans: "Wood", opts: ["Plastic", "Wood", "Metal"] },
-            { text: "The sun is hot now. I need some cold juice. It is time for a break.", q: "What is the sun doing?", ans: "It is hot", opts: ["It is cold", "It is raining", "It is hot"] },
-            { text: "We saw a long train. The train went fast. It made a loud sound.", q: "How did the train move?", ans: "Fast", opts: ["Slow", "Fast", "Up"] },
-            { text: "Ken has a black vest. The vest is warm. He wears it in the snow.", q: "What is black and warm?", ans: "A vest", opts: ["A coat", "A vest", "A scarf"] },
-            { text: "I see a big white cloud. It looks like a sheep. The sky is very blue.", q: "What does the cloud look like?", ans: "A sheep", opts: ["A dog", "A sheep", "A fox"] },
-            { text: "The chair is green. It is hard to sit on. I will get a soft pad.", q: "What will I get for the chair?", ans: "A soft pad", opts: ["A cup", "A soft pad", "A book"] },
-            { text: "The sharp thorn can cut. Be careful on the path. Do not touch the rose bush.", q: "What must you be careful of?", ans: "The sharp thorn", opts: ["The leaf", "The sharp thorn", "The mud"] }
+            // Long Vowels/R-Controlled/Digraphs Focus (Continued)
+            { text: "Joe saw a goat. The goat had a boat. It rode on the wave. Joe waved at the goat as it rode.", q: "What did the goat have?", ans: "A boat", opts: ["A sled", "A boat", "A fish"] },
+            { text: "Dad made a cake. The cake had cream. It was a good treat. We will eat the cake for a party.", q: "What kind of food did Dad make?", ans: "A cake", opts: ["A pie", "A cake", "A bun"] },
+            { text: "Look at the bright light. It is a star up high. It shines all night. The star is far away.", q: "What shines all night?", ans: "A star", opts: ["The sun", "A star", "A lamp"] },
+            { text: "My new toy is a coin. The coin is gold. I will play with my toy. I toss the coin in the air.", q: "What color is the coin?", ans: "Gold", opts: ["Red", "Blue", "Gold"] },
+            { text: "The dog saw a fawn. The fawn was on the lawn. They both ran away. The fawn was scared of the dog.", q: "Where was the fawn?", ans: "On the lawn", opts: ["On the hill", "On the lawn", "On the road"] },
+            { text: "I hear a chime sound. It is time for lunch. We will eat pizza. We get the food from the bag.", q: "What time is it?", ans: "Time for lunch", opts: ["Time for bed", "Time for lunch", "Time for a run"] },
+            { text: "The blue whale is big. It swims in the deep sea. It eats small fish. The whale is the best swimmer.", q: "What does the whale eat?", ans: "Small fish", opts: ["Big rocks", "Small fish", "Plants"] },
+            { text: "I like to eat pie. My favorite is cherry pie. I will ask for a slice now. It is warm and sweet.", q: "What is the favorite kind of pie?", ans: "Cherry", opts: ["Apple", "Cherry", "Lemon"] },
+            { text: "The rain pours down. We need to go inside. Put on your yellow coat. This keeps me warm and dry. I zip the coat up fast.", q: "What keeps the person warm and dry?", ans: "The yellow coat", opts: ["The hat", "The yellow coat", "The rain"] },
+            { text: "I will go on a hike. I must pack a map. I will see a tall tree. I hope to find a small lake, too.", q: "What must I pack?", ans: "A map", opts: ["A coat", "A map", "A ball"] },
+            { text: "Jen saw a cow. The cow was loud. It was in a green field. It ate the tall grass all day long.", q: "Where was the cow?", ans: "In a green field", opts: ["In the barn", "In a green field", "In the shed"] },
+            { text: "The big ship sailed. It went to a new land. The men waved goodbye. The trip will take ten days.", q: "Where did the ship go?", ans: "To a new land", opts: ["To the dock", "To a new land", "To the rock"] },
+            { text: "I like to draw stars. I use a blue pen. My stars are bright. I draw them on the white paper.", q: "What tool is used to draw stars?", ans: "A blue pen", opts: ["A pencil", "A blue pen", "A crayon"] },
+            { text: "Sue found a flute. The flute was made of wood. She likes to play it. She plays a soft tune for me.", q: "What is the flute made of?", ans: "Wood", opts: ["Plastic", "Wood", "Metal"] },
+            { text: "The sun is hot now. I need some cold juice. It is time for a break. I will sit in the shade and sip.", q: "What is the sun doing?", ans: "It is hot", opts: ["It is cold", "It is raining", "It is hot"] },
+            { text: "We saw a long train. The train went fast. It made a loud sound. It went over the hill and out of sight.", q: "How did the train move?", ans: "Fast", opts: ["Slow", "Fast", "Up"] },
+            { text: "Ken has a black vest. The vest is warm. He wears it in the snow. It keeps his chest cozy and warm.", q: "What is black and warm?", ans: "A vest", opts: ["A coat", "A vest", "A scarf"] },
+            { text: "I see a big white cloud. It looks like a sheep. The sky is very blue. The cloud floats slow above us.", q: "What does the cloud look like?", ans: "A sheep", opts: ["A dog", "A sheep", "A fox"] },
+            { text: "The chair is green. It is hard to sit on. I will get a soft pad. The pad will make the chair nice and comfy.", q: "What will I get for the chair?", ans: "A soft pad", opts: ["A cup", "A soft pad", "A book"] },
+            { text: "The sharp thorn can cut. Be careful on the path. Do not touch the rose bush. The thorn is small but hurts if you touch it.", q: "What must you be careful of?", ans: "The sharp thorn", opts: ["The leaf", "The sharp thorn", "The mud"] }
         ]
     };
 
@@ -543,61 +599,51 @@
         t2: { name: "", color: "", score: 0 },
         turn: 1,
         currentQ: null,
-        currentType: null
+        currentType: null,
+        // New tracking object for non-repeating questions
+        usedQuestions: {
+            fill: [],
+            sense: [],
+            passage: []
+        }
     };
 
     // --- SOUND FUNCTIONS ---
-
-    // Function to play a correct answer sound (Chime/Bell)
     function playCorrectSound() {
         const AudioContext = window.AudioContext || window.webkitAudioContext;
         if (!AudioContext) return; 
-
         const audioCtx = new AudioContext();
-
-        // Create a sequence of two oscillators for a chime effect
         const frequencies = [660, 880];
-        const duration = 0.15; // seconds
+        const duration = 0.15;
 
         frequencies.forEach((freq, index) => {
             const oscillator = audioCtx.createOscillator();
             const gainNode = audioCtx.createGain();
-
             oscillator.connect(gainNode);
             gainNode.connect(audioCtx.destination);
-
             oscillator.type = 'sine';
             oscillator.frequency.setValueAtTime(freq, audioCtx.currentTime + index * 0.05);
-
-            // Attack/Decay
             gainNode.gain.setValueAtTime(0, audioCtx.currentTime);
             gainNode.gain.linearRampToValueAtTime(0.5, audioCtx.currentTime + 0.01);
             gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
-
             oscillator.start(audioCtx.currentTime + index * 0.05);
             oscillator.stop(audioCtx.currentTime + duration + index * 0.05);
         });
     }
 
-    // Function to play an incorrect answer sound (Buzzer)
     function playIncorrectSound() {
         const AudioContext = window.AudioContext || window.webkitAudioContext;
         if (!AudioContext) return; 
-
         const audioCtx = new AudioContext();
         const oscillator = audioCtx.createOscillator();
         const gainNode = audioCtx.createGain();
 
         oscillator.connect(gainNode);
         gainNode.connect(audioCtx.destination);
-
-        oscillator.type = 'sawtooth'; // A harsh, buzzy tone
-        oscillator.frequency.setValueAtTime(120, audioCtx.currentTime); // Low frequency buzz
-
-        // Attack/Decay
+        oscillator.type = 'sawtooth';
+        oscillator.frequency.setValueAtTime(120, audioCtx.currentTime);
         gainNode.gain.setValueAtTime(0.3, audioCtx.currentTime);
         gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.5);
-
         oscillator.start(audioCtx.currentTime);
         oscillator.stop(audioCtx.currentTime + 0.5);
     }
@@ -655,8 +701,23 @@
         document.getElementById('category-select').classList.add('hidden');
         
         const bank = data[type];
-        // Select a random question from the bank
-        const q = bank[Math.floor(Math.random() * bank.length)];
+        let used = state.usedQuestions[type];
+
+        // Reset used questions if all have been used (exhausted 40 questions)
+        if (used.length >= bank.length) {
+            used.length = 0;
+            console.log(`Question bank for ${type} exhausted. Resetting for new cycle.`);
+        }
+
+        let index;
+        // Select a random index that hasn't been used yet
+        do {
+            index = Math.floor(Math.random() * bank.length);
+        } while (used.includes(index));
+
+        used.push(index); // Mark this index as used
+        const q = bank[index]; // Select question by index
+
         state.currentQ = q;
 
         // Hide all areas first
@@ -725,7 +786,7 @@
 
     // POPUP LOGIC
     function handleWin() {
-        playCorrectSound(); // Play correct sound
+        playCorrectSound(); 
         const t = state.turn === 1 ? state.t1 : state.t2;
         t.score++;
         const messages = ["Awesome Job!", "You nailed it!", "Perfect Score!", "Way to go, Team!", "Incredible Answer!"];
@@ -733,7 +794,7 @@
     }
 
     function handleLoss(correctAnswer) {
-        playIncorrectSound(); // Play incorrect sound
+        playIncorrectSound(); 
         const messages = ["Oops! Better luck next time.", "That was a tricky one!", "Almost there!", "Keep practicing, you'll get it!"];
         showModal(false, messages[Math.floor(Math.random() * messages.length)], correctAnswer);
     }
